@@ -1,0 +1,78 @@
+From 6bc932b9c58eb2326ac53815b95e116ffaafb5c6 Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Thu, 29 Oct 2015 18:52:05 -0600
+Subject: [PATCH 05/10] mk: Add rule for installing documentation
+
+Add hierarchy-file support to the DPDK documentation,
+when invoking "make install-doc" documentation files will
+be installed in: $(DESTDIR)/$(RTE_PREFIX)/$(DOC_DIR) where
+DOC_DIR=$(DESTDIR)/$(RTE_PREFIX)/share/doc/dpdk by default, you can
+override RTE_PREFIX and DOC_DIR vars.
+This hierarchy is based on:
+http://www.freedesktop.org/software/systemd/man/file-hierarchy.html
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ mk/rte.sdkinstall.mk | 16 ++++++++++++++++
+ mk/rte.sdkroot.mk    |  6 ++++--
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
+index 829aa4f..4c1cfab 100644
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -46,11 +46,13 @@ RTE_PREFIX ?= /usr/local
+ INCLUDE_DIR ?= $(RTE_PREFIX)/include/dpdk
+ BIN_DIR ?= $(RTE_PREFIX)/bin
+ LIB_DIR ?= $(RTE_PREFIX)/lib
++DOC_DIR ?= $(RTE_PREFIX)/share/doc/dpdk
+ HSLINKS := $(wildcard $(RTE_OUTPUT)/include/*)
+ BINARY_FILES := $(patsubst %.map,,$(wildcard $(RTE_OUTPUT)/app/*))
+ NIC_FILES := $(wildcard $(RTE_SDK)/tools/*.py)
+ LIBS := $(wildcard $(RTE_OUTPUT)/lib/*)
+ MODULES := $(wildcard $(RTE_OUTPUT)/kmod/*)
++DOCS := $(wildcard $(RTE_SDK)/doc/*)
+ BINARY_FILES += $(NIC_FILES)
+ include $(RTE_OUTPUT)/.config
+ RTE_EXEC_ENV := $(CONFIG_RTE_EXEC_ENV:"%"=%)
+@@ -151,6 +153,20 @@ install-mod:
+ 	done \
+ 	fi
+ #
++# install documentation in /usr/local/share/doc/dpdk
++# by default, DOC_DIR can be overriden.
++#
++.PHONY: install-doc
++install-doc:
++	@echo ================== Installing documentation
++	@if [ ! -z "${DOCS}" ]; then \
++	[ -d $(DESTDIR)/$(DOC_DIR) ] || mkdir -p $(DESTDIR)/$(DOC_DIR); \
++	for DOC in ${DOCS}; do \
++	cp -rf $$DOC ${DESTDIR}/${DOC_DIR}; \
++	echo installing: $$DOC; \
++	done \
++	fi
++#
+ # uninstall: remove all built sdk
+ #
+ UNINSTALL_TARGETS := $(addsuffix _uninstall,\
+diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
+index e652218..43f937e 100644
+--- a/mk/rte.sdkroot.mk
++++ b/mk/rte.sdkroot.mk
+@@ -97,8 +97,10 @@ test fast_test ring_test mempool_test perf_test coverage:
+ testall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
+ 
+-.PHONY: install install-headers install-bin install-lib install-mod uninstall
+-install install-headers install-bin install-lib install-mod uninstall:
++.PHONY: install install-headers install-bin install-lib install-mod \
++install-doc uninstall
++install install-headers install-bin install-lib install-mod install-doc \
++uninstall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
+ 
+ .PHONY: doc help
+-- 
+2.6.1.120.g24a00ef
+

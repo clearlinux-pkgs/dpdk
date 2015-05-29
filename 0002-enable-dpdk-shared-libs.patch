@@ -1,0 +1,26 @@
+From 33f0d4a9ead3d2af4c3b182416693e7a74b82db2 Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Wed, 28 Oct 2015 18:25:42 -0600
+Subject: [PATCH] enable dpdk shared libs
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ config/common_linuxapp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/common_linuxapp b/config/common_linuxapp
+index fa55959..1726d5b 100644
+--- a/config/common_linuxapp
++++ b/config/common_linuxapp
+@@ -81,7 +81,7 @@ CONFIG_RTE_ARCH_STRICT_ALIGN=n
+ #
+ # Compile to share library
+ #
+-CONFIG_RTE_BUILD_SHARED_LIB=n
++CONFIG_RTE_BUILD_SHARED_LIB=y
+ 
+ #
+ # Combine to one single library
+-- 
+2.6.1.120.g24a00ef
+

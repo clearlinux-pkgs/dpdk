@@ -1,0 +1,62 @@
+From 0da0f06143840db89b88029a96cd9cc3e34a0f7c Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Thu, 29 Oct 2015 18:59:28 -0600
+Subject: [PATCH 07/10] mk: Add rule for installing runtime files
+
+Add hierarchy-file support to the DPDK libraries, modules,
+binary files, nic bind file, cpu layout file and documentation,
+when invoking "make install-fhs" (filesystem hierarchy standard)
+runtime files will be by default installed in:
+$(DESTDIR)/$(RTE_PREFIX)/$(BIN_DIR) where BIN_DIR=/usr/bin (binary
+files)
+$(DESTDIR)/$(RTE_PREFIX)/$(DOC_DIR) where DOC_DIR=/usr/share/doc/dpdk
+(documentation)
+$(DESTDIR)/$(RTE_PREFIX)/$(LIB_DIR) where  LIB_DIR=/usr/lib
+$(DESTDIR)/$(RTE_PREFIX)/$(KMOD_DIR) (modules)
+if RTE_EXEC_ENV=linuxapp then
+KMOD_DIR=/lib/modules/$(uname -r)/extra/drivers/dpdk
+else KMOD_DIR=/boot/modules
+All directory variables mentioned above can be overridden.
+This hierarchy is based on:
+http://www.freedesktop.org/software/systemd/man/file-hierarchy.html
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ mk/rte.sdkinstall.mk | 4 ++++
+ mk/rte.sdkroot.mk    | 4 ++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
+index c45ab9e..4914bd7 100644
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -186,6 +186,10 @@ install-sdk: install-headers
+ 	@[ -d $(DESTDIR)/$(DATA_DIR)/config ] || mkdir -p $(DESTDIR)/$(DATA_DIR)/config; \
+ 	cp -f $(RTE_SDK)/build/.config $(DESTDIR)/$(DATA_DIR)/config; \
+ 	echo installing: $(RTE_OUTPUT)/.config
++# install runtime files
++#
++.PHONY: install-fhs
++install-fhs: install-lib install-bin install-doc install-mod
+ #
+ # uninstall: remove all built sdk
+ #
+diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
+index 6fac88a..dd5f399 100644
+--- a/mk/rte.sdkroot.mk
++++ b/mk/rte.sdkroot.mk
+@@ -98,9 +98,9 @@ testall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
+ 
+ .PHONY: install install-headers install-bin install-lib install-mod \
+-install-doc install-sdk uninstall
++install-doc install-sdk install-fhs uninstall
+ install install-headers install-bin install-lib install-mod install-doc \
+-install-sdk uninstall:
++install-sdk install-fhs uninstall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
+ 
+ .PHONY: doc help
+-- 
+2.6.1.120.g24a00ef
+

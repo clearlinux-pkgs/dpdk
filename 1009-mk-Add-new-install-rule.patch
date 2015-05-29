@@ -1,0 +1,63 @@
+From 5c8276102b4a25f186a3e7b76b4a978e3db78af8 Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Thu, 29 Oct 2015 19:08:20 -0600
+Subject: [PATCH 09/10] mk: Add new install rule
+
+If "T" variable is defined, the installation process will have the
+current behaviour, else install rule will be called.
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ mk/rte.sdkinstall.mk | 12 +++++++++++-
+ mk/rte.sdkroot.mk    |  4 ++--
+ 2 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
+index 24aa5a5..3331610 100644
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -40,7 +40,6 @@ endif
+ # target name or a name containing jokers "*". Example:
+ # x86_64-native-*-gcc
+ ifndef T
+-T=*
+ ifneq (,$(wildcard $(RTE_OUTPUT)/.config))
+ RTE_PREFIX ?= /usr/local
+ INCLUDE_DIR ?= $(RTE_PREFIX)/include/dpdk
+@@ -191,6 +190,17 @@ install-sdk: install-headers
+ .PHONY: install-fhs
+ install-fhs: install-lib install-bin install-doc install-mod
+ #
++# if "T" var is defined, mbuild rule will be called, else
++# install-fhs rule will be called.
++#
++.PHONY: install
++install:
++ifdef T
++install: mbuild
++else
++install: install-fhs
++endif
++#
+ # uninstall: remove all built sdk
+ #
+ UNINSTALL_TARGETS := $(addsuffix _uninstall,\
+diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
+index 1b619b7..2f8f64a 100644
+--- a/mk/rte.sdkroot.mk
++++ b/mk/rte.sdkroot.mk
+@@ -97,9 +97,9 @@ test fast_test ring_test mempool_test perf_test coverage:
+ testall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
+ 
+-.PHONY: mbuild install-headers install-bin install-lib install-mod \
++.PHONY: mbuild install install-headers install-bin install-lib install-mod \
+ install-doc install-sdk install-fhs uninstall
+-mbuild install-headers install-bin install-lib install-mod install-doc \
++mbuild install install-headers install-bin install-lib install-mod install-doc \
+ install-sdk install-fhs uninstall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
+ 
+-- 
+2.6.1.120.g24a00ef
+

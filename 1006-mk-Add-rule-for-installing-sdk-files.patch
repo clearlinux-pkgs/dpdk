@@ -1,0 +1,81 @@
+From c52b9c6b94d0832f6b64037af75ce7e572acc8df Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Thu, 29 Oct 2015 18:56:29 -0600
+Subject: [PATCH 06/10] mk: Add rule for installing sdk files
+
+Add hierarchy-file support to the DPDK makefiles, scripts,
+examples, tools, config files and headers,
+when invoking "make install-sdk" makefiles, scripts,
+examples, tools, config files will be installed in:
+$(DESTDIR)/$(RTE_PREFIX)/$(SDK_DIR)
+and headers will be installed in:
+$(DESTDIR)/$(RTE_PREFIX)/$(INCLUDE_DIR)
+where SDK_DIR=/usr/local/share/dpdk and
+INCLUDE_DIR=/usr/local/include/dpdk
+by default, you can overrifr RTE_PREFIX, SDK_DIR and INCLUDE_DIR vars.
+This hierarchy is based on:
+http://www.freedesktop.org/software/systemd/man/file-hierarchy.html
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ mk/rte.sdkinstall.mk | 20 ++++++++++++++++++++
+ mk/rte.sdkroot.mk    |  4 ++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
+index 4c1cfab..c45ab9e 100644
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -47,6 +47,7 @@ INCLUDE_DIR ?= $(RTE_PREFIX)/include/dpdk
+ BIN_DIR ?= $(RTE_PREFIX)/bin
+ LIB_DIR ?= $(RTE_PREFIX)/lib
+ DOC_DIR ?= $(RTE_PREFIX)/share/doc/dpdk
++DATA_DIR ?= $(RTE_PREFIX)/share/dpdk
+ HSLINKS := $(wildcard $(RTE_OUTPUT)/include/*)
+ BINARY_FILES := $(patsubst %.map,,$(wildcard $(RTE_OUTPUT)/app/*))
+ NIC_FILES := $(wildcard $(RTE_SDK)/tools/*.py)
+@@ -167,6 +168,25 @@ install-doc:
+ 	done \
+ 	fi
+ #
++# install sdk files in /usr/local/share/dpdk by default
++# where RTE_PREFIX and DATA_DIR can be overridden.
++#
++.PHONY: install-sdk
++install-sdk: install-headers
++	@echo ================== Installing sdk files
++	@[ -d $(DESTDIR)/$(DATA_DIR) ] || mkdir -p $(DESTDIR)/$(DATA_DIR); \
++	cp -rf $(RTE_SDK)/mk $(DESTDIR)/$(DATA_DIR); \
++	echo installing: $(RTE_SDK)/mk; \
++	cp -rf $(RTE_SDK)/scripts $(DESTDIR)/$(DATA_DIR); \
++	echo installing: $(RTE_SDK)/scripts; \
++	cp -rf $(RTE_SDK)/examples $(DESTDIR)/$(DATA_DIR); \
++	echo installing: $(RTE_SDK)/examples; \
++	cp -rf $(RTE_SDK)/tools $(DESTDIR)/$(DATA_DIR); \
++	echo installing: $(RTE_SDK)/scripts
++	@[ -d $(DESTDIR)/$(DATA_DIR)/config ] || mkdir -p $(DESTDIR)/$(DATA_DIR)/config; \
++	cp -f $(RTE_SDK)/build/.config $(DESTDIR)/$(DATA_DIR)/config; \
++	echo installing: $(RTE_OUTPUT)/.config
++#
+ # uninstall: remove all built sdk
+ #
+ UNINSTALL_TARGETS := $(addsuffix _uninstall,\
+diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
+index 43f937e..6fac88a 100644
+--- a/mk/rte.sdkroot.mk
++++ b/mk/rte.sdkroot.mk
+@@ -98,9 +98,9 @@ testall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
+ 
+ .PHONY: install install-headers install-bin install-lib install-mod \
+-install-doc uninstall
++install-doc install-sdk uninstall
+ install install-headers install-bin install-lib install-mod install-doc \
+-uninstall:
++install-sdk uninstall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
+ 
+ .PHONY: doc help
+-- 
+2.6.1.120.g24a00ef
+

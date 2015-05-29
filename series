@@ -1,0 +1,11 @@
+0001-disable-dpdk-kernel-modules.patch
+0002-enable-dpdk-shared-libs.patch
+1001-mk-Add-rule-for-installing-headers.patch
+1002-mk-Add-rule-for-installing-app-files.patch
+1003-mk-Add-rule-for-installing-libraries.patch
+1004-mk-Add-rule-for-installing-modules.patch
+1005-mk-Add-rule-for-installing-documentation.patch
+1006-mk-Add-rule-for-installing-sdk-files.patch
+1007-mk-Add-rule-for-installing-runtime-files.patch
+1008-mk-Rename-install-rule-as-mbuild-rule.patch
+1009-mk-Add-new-install-rule.patch

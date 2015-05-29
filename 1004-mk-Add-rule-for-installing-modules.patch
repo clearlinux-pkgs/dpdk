@@ -1,0 +1,82 @@
+From 27c208e39aebe46db5b0ecca2d07bcd73e7f1804 Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Thu, 29 Oct 2015 18:40:43 -0600
+Subject: [PATCH 04/10] mk: Add rule for installing modules
+
+Add hierarchy-file support to the DPDK modules,
+when invoking "make install-mod" modules will be
+installed in: $(DESTDIR)/$(KMOD_DIR)
+if RTE_EXEC_ENV=linuxapp then
+KMOD_DIR=/lib/modules/$(uname -r)/extra/drivers/dpdk
+else KMOD_DIR=/boot/modules
+by default, you can override KMOD_DIR var.
+This hierarchy is based on:
+http://www.freedesktop.org/software/systemd/man/file-hierarchy.html
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ mk/rte.sdkinstall.mk | 24 ++++++++++++++++++++++++
+ mk/rte.sdkroot.mk    |  4 ++--
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
+index 58e5516..829aa4f 100644
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -50,7 +50,15 @@ HSLINKS := $(wildcard $(RTE_OUTPUT)/include/*)
+ BINARY_FILES := $(patsubst %.map,,$(wildcard $(RTE_OUTPUT)/app/*))
+ NIC_FILES := $(wildcard $(RTE_SDK)/tools/*.py)
+ LIBS := $(wildcard $(RTE_OUTPUT)/lib/*)
++MODULES := $(wildcard $(RTE_OUTPUT)/kmod/*)
+ BINARY_FILES += $(NIC_FILES)
++include $(RTE_OUTPUT)/.config
++RTE_EXEC_ENV := $(CONFIG_RTE_EXEC_ENV:"%"=%)
++ifeq ($(RTE_EXEC_ENV),linuxapp)
++KMOD_DIR ?= /lib/modules/$(shell uname -r)/extra/drivers/dpdk
++else
++KMOD_DIR ?= /boot/modules
++endif
+ endif
+ endif
+ 
+@@ -127,6 +135,22 @@ install-lib:
+ 	done \
+ 	fi
+ #
++# if RTE_EXEC_ENV=linuxapp modules install in:
++# /lib/modules/$(uname -r)/extra/drivers/dpdk
++# else /boot/modules/ by default
++# KERNEL_DIR can be overridden.
++#
++.PHONY: install-mod
++install-mod:
++	@echo ================== Installing modules
++	@if [ ! -z "${MODULES}" ]; then \
++	[ -d $(DESTDIR)/$(KMOD_DIR) ] || mkdir -p $(DESTDIR)/$(KMOD_DIR); \
++	for MOD in ${MODULES}; do \
++	cp -rf $$MOD ${DESTDIR}/${KMOD_DIR}; \
++	echo installing: $$MOD; \
++	done \
++	fi
++#
+ # uninstall: remove all built sdk
+ #
+ UNINSTALL_TARGETS := $(addsuffix _uninstall,\
+diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
+index 7a72c9b..e652218 100644
+--- a/mk/rte.sdkroot.mk
++++ b/mk/rte.sdkroot.mk
+@@ -97,8 +97,8 @@ test fast_test ring_test mempool_test perf_test coverage:
+ testall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
+ 
+-.PHONY: install install-headers install-bin install-lib uninstall
+-install install-headers install-bin install-lib uninstall:
++.PHONY: install install-headers install-bin install-lib install-mod uninstall
++install install-headers install-bin install-lib install-mod uninstall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
+ 
+ .PHONY: doc help
+-- 
+2.6.1.120.g24a00ef
+

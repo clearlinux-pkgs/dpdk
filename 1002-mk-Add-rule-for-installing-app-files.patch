@@ -1,0 +1,75 @@
+From 84142920d57c229a53d3bba8bd66fa2385fb37db Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Thu, 29 Oct 2015 18:30:12 -0600
+Subject: [PATCH 02/10] mk: Add rule for installing app files
+
+Add hierarchy-file support to the DPDK app files,
+nic bind file and cpu layout file
+when invoking "make install-bin" app files will
+be installed in: $(DESTDIR)/$(RTE_PREFIX)/$(BIN_DIR)
+where BIN_DIR=/usr/local/bin by default, you can
+override RTE_PREFIX and BIN_DIR vars.
+This hierarchy is based on:
+http://www.freedesktop.org/software/systemd/man/file-hierarchy.html
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ mk/rte.sdkinstall.mk | 18 ++++++++++++++++++
+ mk/rte.sdkroot.mk    |  4 ++--
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
+index 3088975..9277dd2 100644
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -44,7 +44,11 @@ T=*
+ ifneq (,$(wildcard $(RTE_OUTPUT)/.config))
+ RTE_PREFIX ?= /usr/local
+ INCLUDE_DIR ?= $(RTE_PREFIX)/include/dpdk
++BIN_DIR ?= $(RTE_PREFIX)/bin
+ HSLINKS := $(wildcard $(RTE_OUTPUT)/include/*)
++BINARY_FILES := $(patsubst %.map,,$(wildcard $(RTE_OUTPUT)/app/*))
++NIC_FILES := $(wildcard $(RTE_SDK)/tools/*.py)
++BINARY_FILES += $(NIC_FILES)
+ endif
+ endif
+ 
+@@ -93,6 +97,20 @@ install-headers:
+ 	done \
+ 	fi
+ #
++# install app files in /usr/local/bin by default
++# RTE_PREFIX and BIN_DIR can be overridden.
++#
++.PHONY: install-bin
++install-bin:
++	@echo ================== Installing app files;
++	@if [ ! -z "${BINARY_FILES}" ]; then \
++	[ -d $(DESTDIR)/$(BIN_DIR) ] || mkdir -p $(DESTDIR)/$(BIN_DIR); \
++	for BIN_FILE in ${BINARY_FILES}; do \
++	cp -rf $$BIN_FILE ${DESTDIR}/${BIN_DIR}; \
++	echo installing: $$BIN_FILE; \
++	done \
++	fi
++#
+ # uninstall: remove all built sdk
+ #
+ UNINSTALL_TARGETS := $(addsuffix _uninstall,\
+diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
+index 8477a2b..24eaa60 100644
+--- a/mk/rte.sdkroot.mk
++++ b/mk/rte.sdkroot.mk
+@@ -97,8 +97,8 @@ test fast_test ring_test mempool_test perf_test coverage:
+ testall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
+ 
+-.PHONY: install install-headers uninstall
+-install install-headers uninstall:
++.PHONY: install install-headers install-bin uninstall
++install install-headers install-bin uninstall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
+ 
+ .PHONY: doc help
+-- 
+2.6.1.120.g24a00ef
+

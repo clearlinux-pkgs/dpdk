@@ -1,0 +1,54 @@
+From 8ce24bc28b3b3ba8fdd7b8065b2ea244e616383d Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Thu, 29 Oct 2015 19:04:14 -0600
+Subject: [PATCH 08/10] mk: Rename install rule as mbuild rule
+
+"install" rule with the current dpdk behaviour change its name.
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ mk/rte.sdkinstall.mk | 8 ++++----
+ mk/rte.sdkroot.mk    | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
+index 4914bd7..24aa5a5 100644
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -70,13 +70,13 @@ endif
+ #
+ INSTALL_CONFIGS := $(patsubst $(RTE_SRCDIR)/config/defconfig_%,%,\
+ 	$(wildcard $(RTE_SRCDIR)/config/defconfig_$(T)))
+-INSTALL_TARGETS := $(addsuffix _install,\
++INSTALL_TARGETS := $(addsuffix _mbuild,\
+ 	$(filter-out %~,$(INSTALL_CONFIGS)))
+ 
+-.PHONY: install
+-install: $(INSTALL_TARGETS)
++.PHONY: mbuild
++mbuild: $(INSTALL_TARGETS)
+ 
+-%_install:
++%_mbuild:
+ 	@echo ================== Installing $*
+ 	$(Q)if [ ! -f $(BUILD_DIR)/$*/.config ]; then \
+ 		$(MAKE) config T=$* O=$(BUILD_DIR)/$*; \
+diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
+index dd5f399..1b619b7 100644
+--- a/mk/rte.sdkroot.mk
++++ b/mk/rte.sdkroot.mk
+@@ -97,9 +97,9 @@ test fast_test ring_test mempool_test perf_test coverage:
+ testall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
+ 
+-.PHONY: install install-headers install-bin install-lib install-mod \
++.PHONY: mbuild install-headers install-bin install-lib install-mod \
+ install-doc install-sdk install-fhs uninstall
+-install install-headers install-bin install-lib install-mod install-doc \
++mbuild install-headers install-bin install-lib install-mod install-doc \
+ install-sdk install-fhs uninstall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
+ 
+-- 
+2.6.1.120.g24a00ef
+

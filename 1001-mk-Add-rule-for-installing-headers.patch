@@ -1,0 +1,76 @@
+From 7efe672cdfa1edac184d6ababa6d2ced936e96fa Mon Sep 17 00:00:00 2001
+From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+Date: Thu, 29 Oct 2015 18:25:02 -0600
+Subject: [PATCH 01/10] mk: Add rule for installing headers
+
+Add hierarchy-file support to the DPDK headers,
+when invoking "make install-headers" headers will
+be installed in: $(DESTDIR)/$(RTE_PREFIX)/$(INCLUDE_DIR)
+where INCLUDE_DIR=/include/dpdk and RTE_PREFIX=/usr/local by default,
+you can override RTE_PREFIX and INCLUDE_DIR vars.
+This hierarchy is based on:
+http://www.freedesktop.org/software/systemd/man/file-hierarchy.html
+
+Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
+---
+ mk/rte.sdkinstall.mk | 21 ++++++++++++++++++++-
+ mk/rte.sdkroot.mk    |  4 ++--
+ 2 files changed, 22 insertions(+), 3 deletions(-)
+
+diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
+index 86c98a5..3088975 100644
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -41,6 +41,11 @@ endif
+ # x86_64-native-*-gcc
+ ifndef T
+ T=*
++ifneq (,$(wildcard $(RTE_OUTPUT)/.config))
++RTE_PREFIX ?= /usr/local
++INCLUDE_DIR ?= $(RTE_PREFIX)/include/dpdk
++HSLINKS := $(wildcard $(RTE_OUTPUT)/include/*)
++endif
+ endif
+ 
+ #
+@@ -72,7 +77,21 @@ install: $(INSTALL_TARGETS)
+ 		echo "Using local configuration"; \
+ 	fi
+ 	$(Q)$(MAKE) all O=$(BUILD_DIR)/$*
+-
++#
++# install headers in /usr/local/include/dpdk by default
++# RTE_PREFIX and INCLUDE_DIR can be overridden.
++#
++.PHONY: install-headers
++install-headers:
++	@echo ================== Installing headers;
++	@if [ ! -z "${HSLINKS}" ]; then \
++	[ -d $(DESTDIR)/$(INCLUDE_DIR) ] || mkdir -p $(DESTDIR)/$(INCLUDE_DIR); \
++	for HSLINK in ${HSLINKS}; do \
++	HEADER=$$(readlink -f $$HSLINK); \
++	cp -rf $$HEADER ${DESTDIR}/${INCLUDE_DIR}; \
++	echo installing: $$HEADER; \
++	done \
++	fi
+ #
+ # uninstall: remove all built sdk
+ #
+diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
+index e8423b0..8477a2b 100644
+--- a/mk/rte.sdkroot.mk
++++ b/mk/rte.sdkroot.mk
+@@ -97,8 +97,8 @@ test fast_test ring_test mempool_test perf_test coverage:
+ testall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
+ 
+-.PHONY: install uninstall
+-install uninstall:
++.PHONY: install install-headers uninstall
++install install-headers uninstall:
+ 	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
+ 
+ .PHONY: doc help
+-- 
+2.6.1.120.g24a00ef
+

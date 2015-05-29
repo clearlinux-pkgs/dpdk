@@ -1,0 +1,1 @@
+install-sdk RTE_PREFIX=/usr LIB_DIR=/usr/lib64 INCLUDE_DIR=/usr/include
