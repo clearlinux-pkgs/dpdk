@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 2.1.0
-Release  : 12
+Release  : 13
 URL      : http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz
 Source0  : http://dpdk.org/browse/dpdk/snapshot/dpdk-2.1.0.tar.gz
 Summary  : Data Plane Development Kit core
