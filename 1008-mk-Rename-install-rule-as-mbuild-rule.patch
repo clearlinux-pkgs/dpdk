@@ -1,9 +1,9 @@
-From 8ce24bc28b3b3ba8fdd7b8065b2ea244e616383d Mon Sep 17 00:00:00 2001
+From 35c6ce2bc2c9c57ff15ff263028dd28e75802a56 Mon Sep 17 00:00:00 2001
 From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
-Date: Thu, 29 Oct 2015 19:04:14 -0600
-Subject: [PATCH 08/10] mk: Rename install rule as mbuild rule
+Date: Thu, 5 Nov 2015 18:25:05 -0600
+Subject: [PATCH 8/9] mk: Rename install rule as mbuild rule
 
-"install" rule with the current dpdk behaviour change its name.
+"install" with the current dpdk behaviour change its name.
 
 Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
 ---
@@ -12,7 +12,7 @@ Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
  2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
-index 4914bd7..24aa5a5 100644
+index 7911509..4a35133 100644
 --- a/mk/rte.sdkinstall.mk
 +++ b/mk/rte.sdkinstall.mk
 @@ -70,13 +70,13 @@ endif

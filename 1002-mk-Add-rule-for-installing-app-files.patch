@@ -1,7 +1,7 @@
-From 84142920d57c229a53d3bba8bd66fa2385fb37db Mon Sep 17 00:00:00 2001
+From a6e36e8bb95a748750f8b81047970a74ad64102b Mon Sep 17 00:00:00 2001
 From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
-Date: Thu, 29 Oct 2015 18:30:12 -0600
-Subject: [PATCH 02/10] mk: Add rule for installing app files
+Date: Thu, 5 Nov 2015 17:51:50 -0600
+Subject: [PATCH 2/9] mk: Add rule for installing app files
 
 Add hierarchy-file support to the DPDK app files,
 nic bind file and cpu layout file
@@ -19,7 +19,7 @@ Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
  2 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
-index 3088975..9277dd2 100644
+index 09783c5..daf1dee 100644
 --- a/mk/rte.sdkinstall.mk
 +++ b/mk/rte.sdkinstall.mk
 @@ -44,7 +44,11 @@ T=*
@@ -27,14 +27,14 @@ index 3088975..9277dd2 100644
  RTE_PREFIX ?= /usr/local
  INCLUDE_DIR ?= $(RTE_PREFIX)/include/dpdk
 +BIN_DIR ?= $(RTE_PREFIX)/bin
- HSLINKS := $(wildcard $(RTE_OUTPUT)/include/*)
+ HSLINKS := $(shell find  $(RTE_OUTPUT)/include/ -name *.h)
 +BINARY_FILES := $(patsubst %.map,,$(wildcard $(RTE_OUTPUT)/app/*))
 +NIC_FILES := $(wildcard $(RTE_SDK)/tools/*.py)
 +BINARY_FILES += $(NIC_FILES)
  endif
  endif
  
-@@ -93,6 +97,20 @@ install-headers:
+@@ -94,6 +98,20 @@ install-headers:
  	done \
  	fi
  #

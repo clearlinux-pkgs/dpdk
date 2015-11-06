@@ -1,7 +1,7 @@
-From c52b9c6b94d0832f6b64037af75ce7e572acc8df Mon Sep 17 00:00:00 2001
+From b3893f5c09625ab3493d0009da1bc2f0ea3246fc Mon Sep 17 00:00:00 2001
 From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
-Date: Thu, 29 Oct 2015 18:56:29 -0600
-Subject: [PATCH 06/10] mk: Add rule for installing sdk files
+Date: Thu, 5 Nov 2015 18:12:34 -0600
+Subject: [PATCH 6/9] mk: Add rule for installing sdk files
 
 Add hierarchy-file support to the DPDK makefiles, scripts,
 examples, tools, config files and headers,
@@ -19,11 +19,11 @@ http://www.freedesktop.org/software/systemd/man/file-hierarchy.html
 Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
 ---
  mk/rte.sdkinstall.mk | 20 ++++++++++++++++++++
- mk/rte.sdkroot.mk    |  4 ++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
+ mk/rte.sdkroot.mk    |  5 +++--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/mk/rte.sdkinstall.mk b/mk/rte.sdkinstall.mk
-index 4c1cfab..c45ab9e 100644
+index 747c1ff..ec6a134 100644
 --- a/mk/rte.sdkinstall.mk
 +++ b/mk/rte.sdkinstall.mk
 @@ -47,6 +47,7 @@ INCLUDE_DIR ?= $(RTE_PREFIX)/include/dpdk
@@ -31,10 +31,10 @@ index 4c1cfab..c45ab9e 100644
  LIB_DIR ?= $(RTE_PREFIX)/lib
  DOC_DIR ?= $(RTE_PREFIX)/share/doc/dpdk
 +DATA_DIR ?= $(RTE_PREFIX)/share/dpdk
- HSLINKS := $(wildcard $(RTE_OUTPUT)/include/*)
+ MODULES := $(wildcard $(RTE_OUTPUT)/kmod/*)
+ HSLINKS := $(shell find  $(RTE_OUTPUT)/include/ -name *.h)
  BINARY_FILES := $(patsubst %.map,,$(wildcard $(RTE_OUTPUT)/app/*))
- NIC_FILES := $(wildcard $(RTE_SDK)/tools/*.py)
-@@ -167,6 +168,25 @@ install-doc:
+@@ -168,6 +169,25 @@ install-doc:
  	done \
  	fi
  #
@@ -61,17 +61,17 @@ index 4c1cfab..c45ab9e 100644
  #
  UNINSTALL_TARGETS := $(addsuffix _uninstall,\
 diff --git a/mk/rte.sdkroot.mk b/mk/rte.sdkroot.mk
-index 43f937e..6fac88a 100644
+index f56341d..6fac88a 100644
 --- a/mk/rte.sdkroot.mk
 +++ b/mk/rte.sdkroot.mk
-@@ -98,9 +98,9 @@ testall:
+@@ -98,8 +98,9 @@ testall:
  	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdktestall.mk $@
  
  .PHONY: install install-headers install-bin install-lib install-mod \
 -install-doc uninstall
+-install install-headers install-bin install-lib install-mod install-doc uninstall:
 +install-doc install-sdk uninstall
- install install-headers install-bin install-lib install-mod install-doc \
--uninstall:
++install install-headers install-bin install-lib install-mod install-doc \
 +install-sdk uninstall:
  	$(Q)$(MAKE) -f $(RTE_SDK)/mk/rte.sdkinstall.mk $@
  
