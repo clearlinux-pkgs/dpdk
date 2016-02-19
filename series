@@ -1,3 +1,4 @@
 0001-disable-dpdk-kernel-modules.patch
 0002-enable-dpdk-shared-libs.patch
 0003-fix-conflicted-shebang-path-with-FHS.patch
+0004-enable-combine-libs.patch
