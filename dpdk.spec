@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 2.2.0
-Release  : 18
+Release  : 19
 URL      : http://dpdk.org/browse/dpdk/snapshot/dpdk-2.2.0.tar.gz
 Source0  : http://dpdk.org/browse/dpdk/snapshot/dpdk-2.2.0.tar.gz
 Summary  : Data Plane Development Kit core
@@ -18,6 +18,7 @@ Patch1: 0001-disable-dpdk-kernel-modules.patch
 Patch2: 0002-enable-dpdk-shared-libs.patch
 Patch3: 0003-fix-conflicted-shebang-path-with-FHS.patch
 Patch4: 0004-enable-combine-libs.patch
+Patch5: 0005-add-symbolic-link-to-dpdk-combined-lib.patch
 
 %description
 DPDK core includes kernel modules, core libraries and tools.
@@ -70,6 +71,7 @@ lib components for the dpdk package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 make V=1  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make
