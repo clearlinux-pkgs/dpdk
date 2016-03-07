@@ -48,7 +48,6 @@ data components for the dpdk package.
 Summary: dev components for the dpdk package.
 Group: Development
 Requires: dpdk-lib
-Requires: dpdk-bin
 Requires: dpdk-data
 Provides: dpdk-devel
 
