@@ -1,6 +1,6 @@
-From b18008c32822f0c369afc4e6b051fa5046125975 Mon Sep 17 00:00:00 2001
+From b542742ef9eb66602c0e205a27552b1140e85eb7 Mon Sep 17 00:00:00 2001
 From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
-Date: Mon, 7 Mar 2016 11:48:32 -0600
+Date: Tue, 8 Mar 2016 14:16:01 -0600
 Subject: [PATCH] mk: add symbolic link to dpdk combined lib
 
 In order to have the dpdk files in the correct
@@ -10,42 +10,30 @@ installed in a wrong package.
 
 Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
 ---
- mk/rte.sharelib.mk | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ mk/rte.sharelib.mk | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/mk/rte.sharelib.mk b/mk/rte.sharelib.mk
-index 70c49a8..be01244 100644
+index 70c49a8..45b5153 100644
 --- a/mk/rte.sharelib.mk
 +++ b/mk/rte.sharelib.mk
-@@ -33,6 +33,7 @@ include $(RTE_SDK)/mk/internal/rte.build-pre.mk
- 
- # VPATH contains at least SRCDIR
- VPATH += $(SRCDIR)
-+EXT := 2.2
+@@ -36,7 +36,7 @@ VPATH += $(SRCDIR)
  
  ifeq ($(CONFIG_RTE_BUILD_COMBINE_LIBS),y)
  ifeq ($(CONFIG_RTE_BUILD_SHARED_LIB),y)
-@@ -54,10 +55,10 @@ ifeq ($(LINK_USING_CC),1)
- LD := $(CC) $(CPU_CFLAGS)
- O_TO_S = $(LD) $(call linkerprefix,$(CPU_LDFLAGS)) \
- 	 $(call linkerprefix,$(COMBINED_LDFLAGS)) \
--	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
-+	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE).$(EXT)
+-LIB_ONE := lib$(RTE_LIBNAME).so
++LIB_ONE := lib$(RTE_LIBNAME).so.2.2
  else
- O_TO_S = $(LD) $(CPU_LDFLAGS) $(COMBINED_LDFLAGS) \
--	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
-+	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE).$(EXT)
+ LIB_ONE := lib$(RTE_LIBNAME).a
  endif
- 
- O_TO_S_STR = $(subst ','\'',$(O_TO_S)) #'# fix syntax highlight
-@@ -83,6 +84,7 @@ ifeq ($(CONFIG_RTE_BUILD_SHARED_LIB),y)
- $(LIB_ONE): FORCE
+@@ -84,6 +84,7 @@ $(LIB_ONE): FORCE
  	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
  	@$(SRCDIR)/scripts/merge-maps.sh > $(COMBINED_MAP)
-+	@ln -s -f $(LIB_ONE).$(EXT) $(RTE_OUTPUT)/lib/$(LIB_ONE)
  	$(O_TO_S_DO)
++	$(Q)ln -s -f $(LIB_ONE) $(basename $(basename $(RTE_OUTPUT)/lib/$(LIB_ONE)))
  else
  $(LIB_ONE): FORCE
+ 	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
 -- 
 2.6.4.442.g545299f.dirty
 
