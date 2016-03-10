@@ -1,32 +1,43 @@
-From b542742ef9eb66602c0e205a27552b1140e85eb7 Mon Sep 17 00:00:00 2001
+From 9c460a1a943a9b44f561dfdb6c623f358661a231 Mon Sep 17 00:00:00 2001
 From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
-Date: Tue, 8 Mar 2016 14:16:01 -0600
-Subject: [PATCH] mk: add symbolic link to dpdk combined lib
+Date: Thu, 10 Mar 2016 13:49:47 -0600
+Subject: [PATCH] mk: add soname field to combined lib
 
-In order to have the dpdk files in the correct
-packages, it's necessary to add a symbolic link
-to dpdk combined library, otherwise the dpdk lib will be
-installed in a wrong package.
+the soname was added using the current dpdk version
 
 Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
 ---
- mk/rte.sharelib.mk | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ mk/rte.sharelib.mk | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/mk/rte.sharelib.mk b/mk/rte.sharelib.mk
-index 70c49a8..45b5153 100644
+index 70c49a8..61af976 100644
 --- a/mk/rte.sharelib.mk
 +++ b/mk/rte.sharelib.mk
-@@ -36,7 +36,7 @@ VPATH += $(SRCDIR)
+@@ -36,7 +36,8 @@ VPATH += $(SRCDIR)
  
  ifeq ($(CONFIG_RTE_BUILD_COMBINE_LIBS),y)
  ifeq ($(CONFIG_RTE_BUILD_SHARED_LIB),y)
 -LIB_ONE := lib$(RTE_LIBNAME).so
 +LIB_ONE := lib$(RTE_LIBNAME).so.2.2
++LIB_SONAME := lib$(RTE_LIBNAME).so.2
  else
  LIB_ONE := lib$(RTE_LIBNAME).a
  endif
-@@ -84,6 +84,7 @@ $(LIB_ONE): FORCE
+@@ -54,10 +55,10 @@ ifeq ($(LINK_USING_CC),1)
+ LD := $(CC) $(CPU_CFLAGS)
+ O_TO_S = $(LD) $(call linkerprefix,$(CPU_LDFLAGS)) \
+ 	 $(call linkerprefix,$(COMBINED_LDFLAGS)) \
+-	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
++	-shared -Wl,-soname,$(LIB_SONAME) $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
+ else
+ O_TO_S = $(LD) $(CPU_LDFLAGS) $(COMBINED_LDFLAGS) \
+-	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
++	-shared $(OBJS) -o -soname=$(LIB_SONAME) $(RTE_OUTPUT)/lib/$(LIB_ONE)
+ endif
+ 
+ O_TO_S_STR = $(subst ','\'',$(O_TO_S)) #'# fix syntax highlight
+@@ -84,6 +85,7 @@ $(LIB_ONE): FORCE
  	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
  	@$(SRCDIR)/scripts/merge-maps.sh > $(COMBINED_MAP)
  	$(O_TO_S_DO)
