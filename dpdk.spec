@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 2.2.0
-Release  : 22
+Release  : 23
 URL      : http://dpdk.org/browse/dpdk/snapshot/dpdk-2.2.0.tar.gz
 Source0  : http://dpdk.org/browse/dpdk/snapshot/dpdk-2.2.0.tar.gz
 Summary  : Data Plane Development Kit core
@@ -48,6 +48,7 @@ data components for the dpdk package.
 Summary: dev components for the dpdk package.
 Group: Development
 Requires: dpdk-lib
+Requires: dpdk-bin
 Requires: dpdk-data
 Provides: dpdk-devel
 
