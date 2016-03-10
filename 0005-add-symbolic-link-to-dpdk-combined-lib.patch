@@ -33,7 +33,7 @@ index 70c49a8..61af976 100644
  else
  O_TO_S = $(LD) $(CPU_LDFLAGS) $(COMBINED_LDFLAGS) \
 -	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
-+	-shared $(OBJS) -o -soname=$(LIB_SONAME) $(RTE_OUTPUT)/lib/$(LIB_ONE)
++       -shared -soname=$(LIB_SONAME) $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
  endif
  
  O_TO_S_STR = $(subst ','\'',$(O_TO_S)) #'# fix syntax highlight
