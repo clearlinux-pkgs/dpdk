@@ -1,6 +1,6 @@
-From 7539071c94ad36a295700acd4e5e82b9483953b7 Mon Sep 17 00:00:00 2001
+From 3850e4ac83cfd19118fdc738d42a78dc2d025495 Mon Sep 17 00:00:00 2001
 From: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
-Date: Thu, 10 Mar 2016 18:23:20 -0600
+Date: Mon, 14 Mar 2016 11:40:58 -0600
 Subject: [PATCH] fix combined shared library ABI version
 
 this error is from dpdk upstream, dpdk combined
@@ -13,7 +13,7 @@ Signed-off-by: Mario Carrillo <mario.alfredo.c.arevalo@intel.com>
  1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/mk/rte.sharelib.mk b/mk/rte.sharelib.mk
-index 70c49a8..9ba20e0 100644
+index 70c49a8..3d1bc45 100644
 --- a/mk/rte.sharelib.mk
 +++ b/mk/rte.sharelib.mk
 @@ -36,7 +36,8 @@ VPATH += $(SRCDIR)
@@ -35,7 +35,7 @@ index 70c49a8..9ba20e0 100644
  else
  O_TO_S = $(LD) $(CPU_LDFLAGS) $(COMBINED_LDFLAGS) \
 -	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
-+	-shared -soname=$(LIB_SONAME )$(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
++	-shared -soname=$(LIB_SONAME) $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
  endif
  
  O_TO_S_STR = $(subst ','\'',$(O_TO_S)) #'# fix syntax highlight
