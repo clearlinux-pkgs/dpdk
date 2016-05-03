@@ -1,0 +1,26 @@
+From 1cb442186fa8bb671e0150e2c2f77a19d925a65f Mon Sep 17 00:00:00 2001
+From: Mario Alfredo Carrillo Arevalo <mario.alfredo.c.arevalo@intel.com>
+Date: Tue, 3 May 2016 15:14:52 -0500
+Subject: [PATCH] enable dpdk shared libs
+
+Signed-off-by: Mario Alfredo Carrillo Arevalo <mario.alfredo.c.arevalo@intel.com>
+---
+ config/common_base | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/common_base b/config/common_base
+index 0124e86..44a7661 100644
+--- a/config/common_base
++++ b/config/common_base
+@@ -67,7 +67,7 @@ CONFIG_RTE_ARCH_STRICT_ALIGN=n
+ #
+ # Compile to share library
+ #
+-CONFIG_RTE_BUILD_SHARED_LIB=n
++CONFIG_RTE_BUILD_SHARED_LIB=y
+ 
+ #
+ # Use newest code breaking previous ABI
+-- 
+2.5.5
+
