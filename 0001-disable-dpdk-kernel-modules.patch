@@ -1,0 +1,29 @@
+From d8a93c17f2571e260052e20922136238354623ec Mon Sep 17 00:00:00 2001
+From: Mario Alfredo Carrillo Arevalo <mario.alfredo.c.arevalo@intel.com>
+Date: Tue, 3 May 2016 15:02:11 -0500
+Subject: [PATCH] disable dpdk kernel modules
+
+Signed-off-by: Mario Alfredo Carrillo Arevalo <mario.alfredo.c.arevalo@intel.com>
+---
+ config/common_linuxapp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/config/common_linuxapp b/config/common_linuxapp
+index 7e698e2..78d6f94 100644
+--- a/config/common_linuxapp
++++ b/config/common_linuxapp
+@@ -35,9 +35,9 @@
+ CONFIG_RTE_EXEC_ENV="linuxapp"
+ CONFIG_RTE_EXEC_ENV_LINUXAPP=y
+ 
+-CONFIG_RTE_EAL_IGB_UIO=y
++CONFIG_RTE_EAL_IGB_UIO=n
+ CONFIG_RTE_EAL_VFIO=y
+-CONFIG_RTE_KNI_KMOD=y
++CONFIG_RTE_KNI_KMOD=n
+ CONFIG_RTE_LIBRTE_KNI=y
+ CONFIG_RTE_LIBRTE_VHOST=y
+ CONFIG_RTE_LIBRTE_PMD_VHOST=y
+-- 
+2.5.5
+
