@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 16.04
-Release  : 28
+Release  : 29
 URL      : http://dpdk.org/browse/dpdk/snapshot/dpdk-16.04.tar.gz
 Source0  : http://dpdk.org/browse/dpdk/snapshot/dpdk-16.04.tar.gz
 Summary  : Data Plane Development Kit core
