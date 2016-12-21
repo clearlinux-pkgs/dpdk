@@ -1,5 +1,5 @@
 PKG_NAME := dpdk
-URL := http://dpdk.org/browse/dpdk/snapshot/dpdk-16.04.tar.gz
-ARCHIVES :=
+URL := http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
+
 
 include ../common/Makefile.common
