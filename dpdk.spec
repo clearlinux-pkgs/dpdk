@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 16.07.2
-Release  : 30
+Release  : 31
 URL      : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Summary  : Data Plane Development Kit core
@@ -17,6 +17,7 @@ BuildRequires : libpcap-dev
 Patch1: 0001-disable-dpdk-kernel-modules.patch
 Patch2: 0002-enable-dpdk-shared-libs.patch
 Patch3: 0003-fix-conflicted-shebang-path-with-FHS.patch
+Patch4: no-arch-native.patch
 
 %description
 DPDK core includes kernel modules, core libraries and tools.
@@ -68,10 +69,11 @@ lib components for the dpdk package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export LANG=C
-make V=1  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make
+make V=1  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make V=1
 
 %install
 rm -rf %{buildroot}

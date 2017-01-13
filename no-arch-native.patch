@@ -1,0 +1,11 @@
+--- dpdk-stable-16.07.2/mk/machine/native/rte.vars.mk~	2016-11-30 09:28:48.000000000 +0000
++++ dpdk-stable-16.07.2/mk/machine/native/rte.vars.mk	2017-01-13 14:56:02.570213275 +0000
+@@ -55,7 +55,7 @@
+ # CPU_LDFLAGS =
+ # CPU_ASFLAGS =
+ 
+-MACHINE_CFLAGS = -march=native
++MACHINE_CFLAGS = $(CFLAGS)
+ 
+ # On FreeBSD systems, sometimes the correct CPU type is not picked up.
+ # To get everything to compile, we need SSE4.2 support, so check if that is
