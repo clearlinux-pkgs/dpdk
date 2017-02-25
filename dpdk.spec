@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 16.07.2
-Release  : 31
+Release  : 32
 URL      : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Summary  : Data Plane Development Kit core
@@ -55,6 +55,14 @@ Provides: dpdk-devel
 dev components for the dpdk package.
 
 
+%package extras
+Summary: extras components for the dpdk package.
+Group: Default
+
+%description extras
+extras components for the dpdk package.
+
+
 %package lib
 Summary: lib components for the dpdk package.
 Group: Libraries
@@ -73,9 +81,11 @@ lib components for the dpdk package.
 
 %build
 export LANG=C
+export SOURCE_DATE_EPOCH=1488031714
 make V=1  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make V=1
 
 %install
+export SOURCE_DATE_EPOCH=1488031714
 rm -rf %{buildroot}
 %make_install prefix=/usr libdir=/usr/lib64 includedir=/usr/include
 
@@ -92,6 +102,15 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-,root,root,-)
+%exclude /usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.py
+%exclude /usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.pyc
+%exclude /usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.pyo
+%exclude /usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.py
+%exclude /usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.pyc
+%exclude /usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.pyo
+%exclude /usr/share/dpdk/tools/cpu_layout.py
+%exclude /usr/share/dpdk/tools/cpu_layout.pyc
+%exclude /usr/share/dpdk/tools/cpu_layout.pyo
 /usr/share/dpdk/examples/Makefile
 /usr/share/dpdk/examples/bond/Makefile
 /usr/share/dpdk/examples/bond/main.c
@@ -131,9 +150,6 @@ rm -rf %{buildroot}
 /usr/share/dpdk/examples/ip_pipeline/config/action.cfg
 /usr/share/dpdk/examples/ip_pipeline/config/action.sh
 /usr/share/dpdk/examples/ip_pipeline/config/action.txt
-/usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.py
-/usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.pyc
-/usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.pyo
 /usr/share/dpdk/examples/ip_pipeline/config/edge_router_downstream.cfg
 /usr/share/dpdk/examples/ip_pipeline/config/edge_router_downstream.sh
 /usr/share/dpdk/examples/ip_pipeline/config/edge_router_upstream.cfg
@@ -154,9 +170,6 @@ rm -rf %{buildroot}
 /usr/share/dpdk/examples/ip_pipeline/config/l3fwd_arp.sh
 /usr/share/dpdk/examples/ip_pipeline/config/network_layers.cfg
 /usr/share/dpdk/examples/ip_pipeline/config/network_layers.sh
-/usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.py
-/usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.pyc
-/usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.pyo
 /usr/share/dpdk/examples/ip_pipeline/config/tm_profile.cfg
 /usr/share/dpdk/examples/ip_pipeline/config_check.c
 /usr/share/dpdk/examples/ip_pipeline/config_parse.c
@@ -486,9 +499,6 @@ rm -rf %{buildroot}
 /usr/share/dpdk/scripts/test-build.sh
 /usr/share/dpdk/scripts/test-null.sh
 /usr/share/dpdk/scripts/validate-abi.sh
-/usr/share/dpdk/tools/cpu_layout.py
-/usr/share/dpdk/tools/cpu_layout.pyc
-/usr/share/dpdk/tools/cpu_layout.pyo
 /usr/share/dpdk/tools/dpdk-devbind.py
 /usr/share/dpdk/tools/dpdk-devbind.pyc
 /usr/share/dpdk/tools/dpdk-devbind.pyo
@@ -564,6 +574,18 @@ rm -rf %{buildroot}
 /usr/lib64/librte_vhost.so
 /usr/share/dpdk/examples/l2fwd-ivshmem/include/common.h
 /usr/share/dpdk/examples/quota_watermark/include/conf.h
+
+%files extras
+%defattr(-,root,root,-)
+/usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.py
+/usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.pyc
+/usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.pyo
+/usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.py
+/usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.pyc
+/usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.pyo
+/usr/share/dpdk/tools/cpu_layout.py
+/usr/share/dpdk/tools/cpu_layout.pyc
+/usr/share/dpdk/tools/cpu_layout.pyo
 
 %files lib
 %defattr(-,root,root,-)
