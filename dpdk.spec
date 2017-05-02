@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 16.07.2
-Release  : 32
+Release  : 33
 URL      : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Summary  : Data Plane Development Kit core
