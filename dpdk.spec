@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 16.07.2
-Release  : 37
+Release  : 38
 URL      : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Summary  : Data Plane Development Kit core
@@ -84,11 +84,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1493764252
-make V=1  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make V=1
+export SOURCE_DATE_EPOCH=1526357796
+make  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make V=1
 
 %install
-export SOURCE_DATE_EPOCH=1493764252
+export SOURCE_DATE_EPOCH=1526357796
 rm -rf %{buildroot}
 %make_install prefix=/usr libdir=/usr/lib64 includedir=/usr/include
 
@@ -144,6 +144,8 @@ rm -rf %{buildroot}
 /usr/share/dpdk/examples/ip_fragmentation/main.c
 /usr/share/dpdk/examples/ip_pipeline/Makefile
 /usr/share/dpdk/examples/ip_pipeline/app.h
+/usr/share/dpdk/examples/ip_pipeline/config/__pycache__/diagram-generator.cpython-36.pyc
+/usr/share/dpdk/examples/ip_pipeline/config/__pycache__/pipeline-to-core-mapping.cpython-36.pyc
 /usr/share/dpdk/examples/ip_pipeline/config/action.cfg
 /usr/share/dpdk/examples/ip_pipeline/config/action.sh
 /usr/share/dpdk/examples/ip_pipeline/config/action.txt
@@ -496,6 +498,8 @@ rm -rf %{buildroot}
 /usr/share/dpdk/scripts/test-build.sh
 /usr/share/dpdk/scripts/test-null.sh
 /usr/share/dpdk/scripts/validate-abi.sh
+/usr/share/dpdk/tools/__pycache__/dpdk-devbind.cpython-36.pyc
+/usr/share/dpdk/tools/__pycache__/dpdk_nic_bind.cpython-36.pyc
 /usr/share/dpdk/tools/dpdk-devbind.py
 /usr/share/dpdk/tools/dpdk-pmdinfo.py
 /usr/share/dpdk/tools/dpdk-setup.sh
@@ -503,8 +507,6 @@ rm -rf %{buildroot}
 /usr/share/dpdk/tools/setup.sh
 /usr/share/dpdk/x86_64-native-linuxapp-gcc/.config
 /usr/share/dpdk/x86_64-native-linuxapp-gcc/app/dpdk-pmdinfogen
-/usr/share/dpdk/x86_64-native-linuxapp-gcc/include
-/usr/share/dpdk/x86_64-native-linuxapp-gcc/lib
 
 %files dev
 %defattr(-,root,root,-)
