@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 16.07.2
-Release  : 39
+Release  : 40
 URL      : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-16.07.2.tar.xz
 Summary  : Data Plane Development Kit core
@@ -84,11 +84,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526358456
+export SOURCE_DATE_EPOCH=1526363818
 make  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make V=1
 
 %install
-export SOURCE_DATE_EPOCH=1526358456
+export SOURCE_DATE_EPOCH=1526363818
 rm -rf %{buildroot}
 %make_install prefix=/usr libdir=/usr/lib64 includedir=/usr/include
 
@@ -108,6 +108,8 @@ rm -rf %{buildroot}
 %exclude /usr/share/dpdk/examples/ip_pipeline/config/diagram-generator.py
 %exclude /usr/share/dpdk/examples/ip_pipeline/config/pipeline-to-core-mapping.py
 %exclude /usr/share/dpdk/tools/cpu_layout.py
+%exclude /usr/share/dpdk/x86_64-native-linuxapp-gcc/include
+%exclude /usr/share/dpdk/x86_64-native-linuxapp-gcc/lib
 /usr/share/dpdk/examples/Makefile
 /usr/share/dpdk/examples/bond/Makefile
 /usr/share/dpdk/examples/bond/main.c

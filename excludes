@@ -1,3 +1,5 @@
 # This file contains the output files that need %exclude. Full path
 # names, one per line.
 /usr/bin/test
+/usr/share/dpdk/x86_64-native-linuxapp-gcc/lib
+/usr/share/dpdk/x86_64-native-linuxapp-gcc/include
