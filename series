@@ -1,3 +1,4 @@
 0001-disable-dpdk-kernel-modules.patch
 0002-enable-dpdk-shared-libs.patch
 no-arch-native.patch
+disable-werror-for-ark-driver.patch

@@ -1,0 +1,10 @@
+--- a/drivers/net/ark/Makefile	2018-11-27 07:36:00.000000000 +0800
++++ b/drivers/net/ark/Makefile	2019-04-23 10:22:34.236722836 +0800
+@@ -9,7 +9,7 @@ include $(RTE_SDK)/mk/rte.vars.mk
+ LIB = librte_pmd_ark.a
+
+ CFLAGS += -O3 -I./
+-CFLAGS += $(WERROR_FLAGS) -Werror
++CFLAGS += $(WERROR_FLAGS)
+
+ EXPORT_MAP := rte_pmd_ark_version.map

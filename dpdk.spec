@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 18.11.1
-Release  : 41
+Release  : 42
 URL      : http://fast.dpdk.org/rel/dpdk-18.11.1.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-18.11.1.tar.xz
 Summary  : Data Plane Development Kit core
@@ -19,6 +19,7 @@ BuildRequires : numactl-dev
 Patch1: 0001-disable-dpdk-kernel-modules.patch
 Patch2: 0002-enable-dpdk-shared-libs.patch
 Patch3: no-arch-native.patch
+Patch4: disable-werror-for-ark-driver.patch
 
 %description
 DPDK core includes kernel modules, core libraries and tools.
@@ -71,19 +72,20 @@ lib components for the dpdk package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1555655368
+export SOURCE_DATE_EPOCH=1555987441
 export LDFLAGS="${LDFLAGS} -fno-lto"
 make  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make V=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1555655368
+export SOURCE_DATE_EPOCH=1555987441
 rm -rf %{buildroot}
 %make_install prefix=/usr libdir=/usr/lib64 includedir=/usr/include
 
