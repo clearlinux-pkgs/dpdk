@@ -1,0 +1,26 @@
+From a258a2226d2add6efa0ebe404ac7babe3373a423 Mon Sep 17 00:00:00 2001
+From: Mikko Ylinen <mikko.ylinen@intel.com>
+Date: Wed, 31 Jul 2019 09:47:56 +0000
+Subject: [PATCH] cryptodev: enable crypto_qat for symmetric crypto from QAT PMD
+
+Signed-off-by: Mikko Ylinen <mikko.ylinen@intel.com>
+---
+ config/common_base | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/common_base b/config/common_base
+index 90c0fcd..ce307bd 100644
+--- a/config/common_base
++++ b/config/common_base
+@@ -572,7 +572,7 @@ CONFIG_RTE_LIBRTE_PMD_OCTEONTX_CRYPTO=y
+ # Compile PMD for QuickAssist based devices - see docs for details
+ #
+ CONFIG_RTE_LIBRTE_PMD_QAT=y
+-CONFIG_RTE_LIBRTE_PMD_QAT_SYM=n
++CONFIG_RTE_LIBRTE_PMD_QAT_SYM=y
+ CONFIG_RTE_LIBRTE_PMD_QAT_ASYM=n
+ #
+ # Max. number of QuickAssist devices, which can be detected and attached
+-- 
+2.22.0
+

@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 19.05
-Release  : 43
+Release  : 44
 URL      : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Summary  : No detailed summary available
@@ -16,10 +16,12 @@ Requires: dpdk-lib = %{version}-%{release}
 BuildRequires : buildreq-meson
 BuildRequires : libpcap-dev
 BuildRequires : numactl-dev
+BuildRequires : openssl-dev
 Patch1: 0001-disable-dpdk-kernel-modules.patch
 Patch2: 0002-enable-dpdk-shared-libs.patch
-Patch3: no-arch-native.patch
-Patch4: disable-werror-for-ark-driver.patch
+Patch3: 0003-cryptodev-enable-crypto_qat-from-QAT-PMD.patch
+Patch4: no-arch-native.patch
+Patch5: disable-werror-for-ark-driver.patch
 
 %description
 DPDK is a set of libraries and drivers for fast packet processing.
@@ -70,13 +72,14 @@ lib components for the dpdk package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1561083724
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1564568565
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -86,9 +89,13 @@ make  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make V=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1561083724
+export SOURCE_DATE_EPOCH=1564568565
 rm -rf %{buildroot}
 %make_install prefix=/usr libdir=/usr/lib64 includedir=/usr/include
+## Remove excluded files
+rm -f %{buildroot}/usr/bin/test
+rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linuxapp-gcc/lib
+rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linuxapp-gcc/include
 
 %files
 %defattr(-,root,root,-)
