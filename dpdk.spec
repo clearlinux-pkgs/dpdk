@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 19.05
-Release  : 44
+Release  : 45
 URL      : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Summary  : No detailed summary available
@@ -79,23 +79,27 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1564568565
+export SOURCE_DATE_EPOCH=1569364408
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
 export FFLAGS="$CFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-make  %{?_smp_mflags} config T=x86_64-native-linuxapp-gcc; make V=1
+make  %{?_smp_mflags}  config T=x86_64-native-linuxapp-gcc; make V=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1564568565
+export SOURCE_DATE_EPOCH=1569364408
 rm -rf %{buildroot}
 %make_install prefix=/usr libdir=/usr/lib64 includedir=/usr/include
 ## Remove excluded files
 rm -f %{buildroot}/usr/bin/test
 rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linuxapp-gcc/lib
 rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linuxapp-gcc/include
+## install_append content
+mkdir %{buildroot}/usr/include/dpdk
+mv %{buildroot}/usr/include/*.h %{buildroot}/usr/include/generic %{buildroot}/usr/include/dpdk/
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -645,19 +649,246 @@ rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linuxapp-gcc/include
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
-/usr/include/generic/rte_atomic.h
-/usr/include/generic/rte_byteorder.h
-/usr/include/generic/rte_cpuflags.h
-/usr/include/generic/rte_cycles.h
-/usr/include/generic/rte_io.h
-/usr/include/generic/rte_memcpy.h
-/usr/include/generic/rte_pause.h
-/usr/include/generic/rte_prefetch.h
-/usr/include/generic/rte_rwlock.h
-/usr/include/generic/rte_spinlock.h
-/usr/include/generic/rte_ticketlock.h
-/usr/include/generic/rte_vect.h
+/usr/include/dpdk/bpf_def.h
+/usr/include/dpdk/cmdline.h
+/usr/include/dpdk/cmdline_cirbuf.h
+/usr/include/dpdk/cmdline_parse.h
+/usr/include/dpdk/cmdline_parse_etheraddr.h
+/usr/include/dpdk/cmdline_parse_ipaddr.h
+/usr/include/dpdk/cmdline_parse_num.h
+/usr/include/dpdk/cmdline_parse_portlist.h
+/usr/include/dpdk/cmdline_parse_string.h
+/usr/include/dpdk/cmdline_rdline.h
+/usr/include/dpdk/cmdline_socket.h
+/usr/include/dpdk/cmdline_vt100.h
+/usr/include/dpdk/dpaax_iova_table.h
+/usr/include/dpdk/generic/rte_atomic.h
+/usr/include/dpdk/generic/rte_byteorder.h
+/usr/include/dpdk/generic/rte_cpuflags.h
+/usr/include/dpdk/generic/rte_cycles.h
+/usr/include/dpdk/generic/rte_io.h
+/usr/include/dpdk/generic/rte_memcpy.h
+/usr/include/dpdk/generic/rte_pause.h
+/usr/include/dpdk/generic/rte_prefetch.h
+/usr/include/dpdk/generic/rte_rwlock.h
+/usr/include/dpdk/generic/rte_spinlock.h
+/usr/include/dpdk/generic/rte_ticketlock.h
+/usr/include/dpdk/generic/rte_vect.h
+/usr/include/dpdk/rte_acl.h
+/usr/include/dpdk/rte_acl_osdep.h
+/usr/include/dpdk/rte_alarm.h
+/usr/include/dpdk/rte_approx.h
+/usr/include/dpdk/rte_arp.h
+/usr/include/dpdk/rte_atomic.h
+/usr/include/dpdk/rte_atomic_32.h
+/usr/include/dpdk/rte_atomic_64.h
+/usr/include/dpdk/rte_avp_common.h
+/usr/include/dpdk/rte_avp_fifo.h
+/usr/include/dpdk/rte_bbdev.h
+/usr/include/dpdk/rte_bbdev_op.h
+/usr/include/dpdk/rte_bbdev_pmd.h
+/usr/include/dpdk/rte_bitmap.h
+/usr/include/dpdk/rte_bitrate.h
+/usr/include/dpdk/rte_bpf.h
+/usr/include/dpdk/rte_bpf_ethdev.h
+/usr/include/dpdk/rte_branch_prediction.h
+/usr/include/dpdk/rte_bus.h
+/usr/include/dpdk/rte_bus_ifpga.h
+/usr/include/dpdk/rte_bus_pci.h
+/usr/include/dpdk/rte_bus_vdev.h
+/usr/include/dpdk/rte_bus_vmbus.h
+/usr/include/dpdk/rte_byteorder.h
+/usr/include/dpdk/rte_byteorder_32.h
+/usr/include/dpdk/rte_byteorder_64.h
+/usr/include/dpdk/rte_cfgfile.h
+/usr/include/dpdk/rte_class.h
+/usr/include/dpdk/rte_common.h
+/usr/include/dpdk/rte_comp.h
+/usr/include/dpdk/rte_compat.h
+/usr/include/dpdk/rte_compressdev.h
+/usr/include/dpdk/rte_compressdev_internal.h
+/usr/include/dpdk/rte_compressdev_pmd.h
+/usr/include/dpdk/rte_config.h
+/usr/include/dpdk/rte_cpuflags.h
+/usr/include/dpdk/rte_crypto.h
+/usr/include/dpdk/rte_crypto_asym.h
+/usr/include/dpdk/rte_crypto_sym.h
+/usr/include/dpdk/rte_cryptodev.h
+/usr/include/dpdk/rte_cryptodev_pmd.h
+/usr/include/dpdk/rte_cryptodev_scheduler.h
+/usr/include/dpdk/rte_cryptodev_scheduler_operations.h
+/usr/include/dpdk/rte_cycles.h
+/usr/include/dpdk/rte_debug.h
+/usr/include/dpdk/rte_dev.h
+/usr/include/dpdk/rte_dev_info.h
+/usr/include/dpdk/rte_devargs.h
+/usr/include/dpdk/rte_distributor.h
+/usr/include/dpdk/rte_dpaa2_mempool.h
+/usr/include/dpdk/rte_eal.h
+/usr/include/dpdk/rte_eal_interrupts.h
+/usr/include/dpdk/rte_eal_memconfig.h
+/usr/include/dpdk/rte_efd.h
+/usr/include/dpdk/rte_errno.h
+/usr/include/dpdk/rte_esp.h
+/usr/include/dpdk/rte_eth_bond.h
+/usr/include/dpdk/rte_eth_bond_8023ad.h
+/usr/include/dpdk/rte_eth_ctrl.h
+/usr/include/dpdk/rte_eth_ring.h
+/usr/include/dpdk/rte_eth_softnic.h
+/usr/include/dpdk/rte_eth_vhost.h
+/usr/include/dpdk/rte_ethdev.h
+/usr/include/dpdk/rte_ethdev_core.h
+/usr/include/dpdk/rte_ethdev_driver.h
+/usr/include/dpdk/rte_ethdev_pci.h
+/usr/include/dpdk/rte_ethdev_vdev.h
+/usr/include/dpdk/rte_ether.h
+/usr/include/dpdk/rte_event_crypto_adapter.h
+/usr/include/dpdk/rte_event_eth_rx_adapter.h
+/usr/include/dpdk/rte_event_eth_tx_adapter.h
+/usr/include/dpdk/rte_event_ring.h
+/usr/include/dpdk/rte_event_timer_adapter.h
+/usr/include/dpdk/rte_event_timer_adapter_pmd.h
+/usr/include/dpdk/rte_eventdev.h
+/usr/include/dpdk/rte_eventdev_pmd.h
+/usr/include/dpdk/rte_eventdev_pmd_pci.h
+/usr/include/dpdk/rte_eventdev_pmd_vdev.h
+/usr/include/dpdk/rte_fbarray.h
+/usr/include/dpdk/rte_fbk_hash.h
+/usr/include/dpdk/rte_flow.h
+/usr/include/dpdk/rte_flow_classify.h
+/usr/include/dpdk/rte_flow_driver.h
+/usr/include/dpdk/rte_gre.h
+/usr/include/dpdk/rte_gro.h
+/usr/include/dpdk/rte_gso.h
+/usr/include/dpdk/rte_hash.h
+/usr/include/dpdk/rte_hash_crc.h
+/usr/include/dpdk/rte_hexdump.h
+/usr/include/dpdk/rte_hypervisor.h
+/usr/include/dpdk/rte_icmp.h
+/usr/include/dpdk/rte_interrupts.h
+/usr/include/dpdk/rte_io.h
+/usr/include/dpdk/rte_ip.h
+/usr/include/dpdk/rte_ip_frag.h
+/usr/include/dpdk/rte_ipsec.h
+/usr/include/dpdk/rte_ipsec_group.h
+/usr/include/dpdk/rte_ipsec_sa.h
+/usr/include/dpdk/rte_jhash.h
+/usr/include/dpdk/rte_jobstats.h
+/usr/include/dpdk/rte_keepalive.h
+/usr/include/dpdk/rte_kni.h
+/usr/include/dpdk/rte_kni_common.h
+/usr/include/dpdk/rte_kvargs.h
+/usr/include/dpdk/rte_latencystats.h
+/usr/include/dpdk/rte_launch.h
+/usr/include/dpdk/rte_lcore.h
+/usr/include/dpdk/rte_log.h
+/usr/include/dpdk/rte_lpm.h
+/usr/include/dpdk/rte_lpm6.h
+/usr/include/dpdk/rte_lpm_sse.h
+/usr/include/dpdk/rte_lru.h
+/usr/include/dpdk/rte_lru_x86.h
+/usr/include/dpdk/rte_malloc.h
+/usr/include/dpdk/rte_malloc_heap.h
+/usr/include/dpdk/rte_mbuf.h
+/usr/include/dpdk/rte_mbuf_pool_ops.h
+/usr/include/dpdk/rte_mbuf_ptype.h
+/usr/include/dpdk/rte_member.h
+/usr/include/dpdk/rte_memcpy.h
+/usr/include/dpdk/rte_memory.h
+/usr/include/dpdk/rte_mempool.h
+/usr/include/dpdk/rte_memzone.h
+/usr/include/dpdk/rte_meter.h
+/usr/include/dpdk/rte_metrics.h
+/usr/include/dpdk/rte_mpls.h
+/usr/include/dpdk/rte_mtr.h
+/usr/include/dpdk/rte_mtr_driver.h
+/usr/include/dpdk/rte_net.h
+/usr/include/dpdk/rte_net_crc.h
+/usr/include/dpdk/rte_option.h
+/usr/include/dpdk/rte_os.h
+/usr/include/dpdk/rte_pause.h
+/usr/include/dpdk/rte_pci.h
+/usr/include/dpdk/rte_pci_dev_feature_defs.h
+/usr/include/dpdk/rte_pci_dev_features.h
+/usr/include/dpdk/rte_pdump.h
+/usr/include/dpdk/rte_per_lcore.h
+/usr/include/dpdk/rte_pipeline.h
+/usr/include/dpdk/rte_pmd_bnxt.h
+/usr/include/dpdk/rte_pmd_dpaa.h
+/usr/include/dpdk/rte_pmd_dpaa2.h
+/usr/include/dpdk/rte_pmd_dpaa2_cmdif.h
+/usr/include/dpdk/rte_pmd_dpaa2_qdma.h
+/usr/include/dpdk/rte_pmd_i40e.h
+/usr/include/dpdk/rte_pmd_ixgbe.h
+/usr/include/dpdk/rte_port.h
+/usr/include/dpdk/rte_port_ethdev.h
+/usr/include/dpdk/rte_port_fd.h
+/usr/include/dpdk/rte_port_frag.h
+/usr/include/dpdk/rte_port_in_action.h
+/usr/include/dpdk/rte_port_kni.h
+/usr/include/dpdk/rte_port_ras.h
+/usr/include/dpdk/rte_port_ring.h
+/usr/include/dpdk/rte_port_sched.h
+/usr/include/dpdk/rte_port_source_sink.h
+/usr/include/dpdk/rte_port_sym_crypto.h
+/usr/include/dpdk/rte_power.h
+/usr/include/dpdk/rte_power_empty_poll.h
+/usr/include/dpdk/rte_prefetch.h
+/usr/include/dpdk/rte_random.h
+/usr/include/dpdk/rte_rawdev.h
+/usr/include/dpdk/rte_rawdev_pmd.h
+/usr/include/dpdk/rte_rcu_qsbr.h
+/usr/include/dpdk/rte_reciprocal.h
+/usr/include/dpdk/rte_red.h
+/usr/include/dpdk/rte_reorder.h
+/usr/include/dpdk/rte_ring.h
+/usr/include/dpdk/rte_ring_c11_mem.h
+/usr/include/dpdk/rte_ring_generic.h
+/usr/include/dpdk/rte_rtm.h
+/usr/include/dpdk/rte_rwlock.h
+/usr/include/dpdk/rte_sched.h
+/usr/include/dpdk/rte_sched_common.h
+/usr/include/dpdk/rte_sctp.h
+/usr/include/dpdk/rte_security.h
+/usr/include/dpdk/rte_security_driver.h
+/usr/include/dpdk/rte_service.h
+/usr/include/dpdk/rte_service_component.h
+/usr/include/dpdk/rte_spinlock.h
+/usr/include/dpdk/rte_stack.h
+/usr/include/dpdk/rte_stack_lf.h
+/usr/include/dpdk/rte_stack_lf_c11.h
+/usr/include/dpdk/rte_stack_lf_generic.h
+/usr/include/dpdk/rte_stack_std.h
+/usr/include/dpdk/rte_string_fns.h
+/usr/include/dpdk/rte_table.h
+/usr/include/dpdk/rte_table_acl.h
+/usr/include/dpdk/rte_table_action.h
+/usr/include/dpdk/rte_table_array.h
+/usr/include/dpdk/rte_table_hash.h
+/usr/include/dpdk/rte_table_hash_cuckoo.h
+/usr/include/dpdk/rte_table_hash_func.h
+/usr/include/dpdk/rte_table_hash_func_arm64.h
+/usr/include/dpdk/rte_table_lpm.h
+/usr/include/dpdk/rte_table_lpm_ipv6.h
+/usr/include/dpdk/rte_table_stub.h
+/usr/include/dpdk/rte_tailq.h
+/usr/include/dpdk/rte_tcp.h
+/usr/include/dpdk/rte_test.h
+/usr/include/dpdk/rte_thash.h
+/usr/include/dpdk/rte_ticketlock.h
+/usr/include/dpdk/rte_time.h
+/usr/include/dpdk/rte_timer.h
+/usr/include/dpdk/rte_tm.h
+/usr/include/dpdk/rte_tm_driver.h
+/usr/include/dpdk/rte_udp.h
+/usr/include/dpdk/rte_uuid.h
+/usr/include/dpdk/rte_vdpa.h
+/usr/include/dpdk/rte_vect.h
+/usr/include/dpdk/rte_version.h
+/usr/include/dpdk/rte_vfio.h
+/usr/include/dpdk/rte_vhost.h
+/usr/include/dpdk/rte_vhost_crypto.h
+/usr/include/dpdk/rte_vmbus_reg.h
 /usr/lib64/libdpdk.so
 /usr/lib64/librte_acl.so
 /usr/lib64/librte_bbdev.so
