@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 19.05
-Release  : 45
+Release  : 46
 URL      : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Summary  : No detailed summary available
@@ -79,26 +79,24 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1569364408
+export SOURCE_DATE_EPOCH=1569580369
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
 export FFLAGS="$CFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-make  %{?_smp_mflags}  config T=x86_64-native-linuxapp-gcc; make V=1
+make  %{?_smp_mflags}  config T=x86_64-native-linux-gcc; make V=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1569364408
+export SOURCE_DATE_EPOCH=1569580369
 rm -rf %{buildroot}
-%make_install prefix=/usr libdir=/usr/lib64 includedir=/usr/include
+%make_install prefix=/usr libdir=/usr/lib64
 ## Remove excluded files
 rm -f %{buildroot}/usr/bin/test
-rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linuxapp-gcc/lib
-rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linuxapp-gcc/include
 ## install_append content
-mkdir %{buildroot}/usr/include/dpdk
-mv %{buildroot}/usr/include/*.h %{buildroot}/usr/include/generic %{buildroot}/usr/include/dpdk/
+rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linux-gcc/include
+ln -sf ../../../include/dpdk %{buildroot}/usr/share/dpdk/x86_64-native-linux-gcc/include
 ## install_append end
 
 %files

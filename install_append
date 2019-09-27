@@ -1,2 +1,2 @@
-mkdir %{buildroot}/usr/include/dpdk
-mv %{buildroot}/usr/include/*.h %{buildroot}/usr/include/generic %{buildroot}/usr/include/dpdk/
+rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linux-gcc/include
+ln -sf ../../../include/dpdk %{buildroot}/usr/share/dpdk/x86_64-native-linux-gcc/include
