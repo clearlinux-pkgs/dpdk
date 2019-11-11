@@ -4,15 +4,16 @@
 #
 Name     : dpdk
 Version  : 19.05
-Release  : 46
+Release  : 47
 URL      : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
-Summary  : No detailed summary available
+Summary  : A set of libraries and drivers for fast packet processing
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: dpdk-bin = %{version}-%{release}
 Requires: dpdk-data = %{version}-%{release}
 Requires: dpdk-lib = %{version}-%{release}
+Requires: pyelftools
 BuildRequires : buildreq-meson
 BuildRequires : libpcap-dev
 BuildRequires : numactl-dev
@@ -24,8 +25,36 @@ Patch4: no-arch-native.patch
 Patch5: disable-werror-for-ark-driver.patch
 
 %description
-DPDK is a set of libraries and drivers for fast packet processing.
-It supports many processor architectures and both FreeBSD and Linux.
+..
+BSD LICENSE
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in
+the documentation and/or other materials provided with the
+distribution.
+* Neither the name of Intel Corporation nor the names of its
+contributors may be used to endorse or promote products derived
+from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 %package bin
 Summary: bin components for the dpdk package.
@@ -51,6 +80,7 @@ Requires: dpdk-lib = %{version}-%{release}
 Requires: dpdk-bin = %{version}-%{release}
 Requires: dpdk-data = %{version}-%{release}
 Provides: dpdk-devel = %{version}-%{release}
+Requires: dpdk = %{version}-%{release}
 Requires: dpdk = %{version}-%{release}
 
 %description dev
@@ -79,7 +109,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1569580369
+export SOURCE_DATE_EPOCH=1573493168
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -89,7 +120,7 @@ make  %{?_smp_mflags}  config T=x86_64-native-linux-gcc; make V=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1569580369
+export SOURCE_DATE_EPOCH=1573493168
 rm -rf %{buildroot}
 %make_install prefix=/usr libdir=/usr/lib64
 ## Remove excluded files
