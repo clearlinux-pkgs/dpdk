@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 19.05
-Release  : 47
+Release  : 48
 URL      : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-19.05.tar.xz
 Summary  : A set of libraries and drivers for fast packet processing
