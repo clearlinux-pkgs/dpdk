@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 19.08.1
-Release  : 49
+Release  : 50
 URL      : http://fast.dpdk.org/rel/dpdk-19.08.1.tar.xz
 Source0  : http://fast.dpdk.org/rel/dpdk-19.08.1.tar.xz
 Summary  : No detailed summary available
@@ -18,6 +18,7 @@ BuildRequires : buildreq-meson
 BuildRequires : libpcap-dev
 BuildRequires : numactl-dev
 BuildRequires : openssl-dev
+BuildRequires : pyelftools
 Patch1: 0001-disable-dpdk-kernel-modules.patch
 Patch2: 0002-enable-dpdk-shared-libs.patch
 Patch3: 0003-cryptodev-enable-crypto_qat-from-QAT-PMD.patch
@@ -81,7 +82,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1573578288
+export SOURCE_DATE_EPOCH=1576004897
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -91,7 +92,7 @@ make  %{?_smp_mflags}  config T=x86_64-native-linux-gcc; make V=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1573578288
+export SOURCE_DATE_EPOCH=1576004897
 rm -rf %{buildroot}
 %make_install prefix=/usr libdir=/usr/lib64
 ## Remove excluded files
@@ -605,7 +606,6 @@ ln -sf ../../../include/dpdk %{buildroot}/usr/share/dpdk/x86_64-native-linux-gcc
 /usr/share/dpdk/mk/machine/hsw/rte.vars.mk
 /usr/share/dpdk/mk/machine/ivb/rte.vars.mk
 /usr/share/dpdk/mk/machine/native/rte.vars.mk
-/usr/share/dpdk/mk/machine/native/rte.vars.mk.orig
 /usr/share/dpdk/mk/machine/nhm/rte.vars.mk
 /usr/share/dpdk/mk/machine/octeontx2/rte.vars.mk
 /usr/share/dpdk/mk/machine/power8/rte.vars.mk
