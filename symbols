@@ -289,6 +289,7 @@ librte_cfgfile.so.20.0:rte_cfgfile_save
 librte_cfgfile.so.20.0:rte_cfgfile_section_entries
 librte_cfgfile.so.20.0:rte_cfgfile_section_entries_by_index
 librte_cfgfile.so.20.0:rte_cfgfile_section_num_entries
+librte_cfgfile.so.20.0:rte_cfgfile_section_num_entries_by_index
 librte_cfgfile.so.20.0:rte_cfgfile_sections
 librte_cfgfile.so.20.0:rte_cfgfile_set_entry
 librte_cmdline.so.20.0:DPDK_20.0
