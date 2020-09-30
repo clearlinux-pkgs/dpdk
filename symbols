@@ -1657,6 +1657,7 @@ librte_rawdev.so.20.0:rte_rawdev_close
 librte_rawdev.so.20.0:rte_rawdev_configure
 librte_rawdev.so.20.0:rte_rawdev_count
 librte_rawdev.so.20.0:rte_rawdev_dequeue_buffers
+librte_rawdev.so.20.0:rte_rawdev_dump
 librte_rawdev.so.20.0:rte_rawdev_enqueue_buffers
 librte_rawdev.so.20.0:rte_rawdev_firmware_load
 librte_rawdev.so.20.0:rte_rawdev_firmware_status_get
