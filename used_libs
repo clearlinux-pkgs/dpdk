@@ -1,7 +1,17 @@
 ld-linux-x86-64.so.2
+libbpf.so.0
+libbsd.so.0
 libc.so.6
 libcrypto.so.1.1
 libdl.so.2
+libelf.so.1
+libibverbs.so.1
+libisal.so.2
+libjansson.so.4
 libm.so.6
+libmlx4.so.1
+libmlx5.so.1
 libnuma.so.1
+libpcap.so.1
 libpthread.so.0
+libz.so.1

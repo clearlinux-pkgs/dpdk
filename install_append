@@ -1,2 +1,0 @@
-rm -f %{buildroot}/usr/share/dpdk/x86_64-native-linux-gcc/include
-ln -sf ../../../include/dpdk %{buildroot}/usr/share/dpdk/x86_64-native-linux-gcc/include

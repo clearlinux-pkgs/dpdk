@@ -1,3 +1,13 @@
-19.11.6
-numactl-dev
-openssl-dev
+20.11.1
+Sphinx
+doxygen
+pkgconfig(jansson)
+pkgconfig(libbpf)
+pkgconfig(libbsd)
+pkgconfig(libcrypto)
+pkgconfig(libelf)
+pkgconfig(libisal)
+pkgconfig(libmlx4)
+pkgconfig(libmlx5)
+pkgconfig(zlib)
+zlib-dev

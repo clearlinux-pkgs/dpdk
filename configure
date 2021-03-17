@@ -1,0 +1,4 @@
+-Dmachine="westmere"
+-Dincludedir=/usr/include/dpdk
+-Dinclude_subdir_arch=""
+-Ddrivers_install_subdir=""

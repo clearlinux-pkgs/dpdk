@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Patrick McCarty <patrick.mccarty@intel.com>
+Date: Wed, 17 Mar 2021 18:53:58 +0000
+Subject: [PATCH] Avoid creating symlinks for PMDs
+
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
+---
+ buildtools/symlink-drivers-solibs.sh | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/buildtools/symlink-drivers-solibs.sh b/buildtools/symlink-drivers-solibs.sh
+index 42985e8..a6b4bf6 100644
+--- a/buildtools/symlink-drivers-solibs.sh
++++ b/buildtools/symlink-drivers-solibs.sh
+@@ -10,4 +10,9 @@
+ # 1. directory for installed regular libs e.g. lib64
+ # 2. subdirectory of libdir where the pmds are
+ 
++# A null value for the subdirectory means that the PMDs will be installed
++# directly to libdir. In that case, no action is necessary.
++if [ -z "$2" ]; then
++	exit 0
++fi
+ cd ${MESON_INSTALL_DESTDIR_PREFIX}/$1 && ln -sfv $2/librte_*.so* .
