@@ -451,7 +451,10 @@ librte_common_mlx5.so.21:mlx5_devx_cmd_query_hca_attr
 librte_common_mlx5.so.21:mlx5_devx_cmd_query_parse_samples
 librte_common_mlx5.so.21:mlx5_devx_cmd_query_virtio_q_counters
 librte_common_mlx5.so.21:mlx5_devx_cmd_query_virtq
+librte_common_mlx5.so.21:mlx5_devx_cmd_queue_counter_alloc
+librte_common_mlx5.so.21:mlx5_devx_cmd_queue_counter_query
 librte_common_mlx5.so.21:mlx5_devx_cmd_register_read
+librte_common_mlx5.so.21:mlx5_devx_cmd_wq_query
 librte_common_mlx5.so.21:mlx5_devx_get_out_command_status
 librte_common_mlx5.so.21:mlx5_free
 librte_common_mlx5.so.21:mlx5_get_dbr
