@@ -457,6 +457,7 @@ librte_common_mlx5.so.21:mlx5_devx_cmd_register_read
 librte_common_mlx5.so.21:mlx5_devx_cmd_wq_query
 librte_common_mlx5.so.21:mlx5_devx_get_out_command_status
 librte_common_mlx5.so.21:mlx5_free
+librte_common_mlx5.so.21:mlx5_free_mr_by_addr
 librte_common_mlx5.so.21:mlx5_get_dbr
 librte_common_mlx5.so.21:mlx5_get_ifname_sysfs
 librte_common_mlx5.so.21:mlx5_glue_constructor
