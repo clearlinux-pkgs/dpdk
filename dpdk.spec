@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 20.11.3
-Release  : 57
+Release  : 58
 URL      : https://fast.dpdk.org/rel/dpdk-20.11.3.tar.xz
 Source0  : https://fast.dpdk.org/rel/dpdk-20.11.3.tar.xz
 Summary  : No detailed summary available
@@ -13,8 +13,7 @@ License  : BSD-3-Clause
 Requires: dpdk-bin = %{version}-%{release}
 Requires: dpdk-data = %{version}-%{release}
 Requires: dpdk-lib = %{version}-%{release}
-Requires: pyelftools
-BuildRequires : Sphinx
+Requires: pypi(pyelftools)
 BuildRequires : buildreq-meson
 BuildRequires : doxygen
 BuildRequires : libpcap-dev
@@ -28,7 +27,7 @@ BuildRequires : pkgconfig(libisal)
 BuildRequires : pkgconfig(libmlx4)
 BuildRequires : pkgconfig(libmlx5)
 BuildRequires : pkgconfig(zlib)
-BuildRequires : pyelftools
+BuildRequires : pypi-sphinx
 BuildRequires : zlib-dev
 Patch1: 0001-Avoid-creating-symlinks-for-PMDs.patch
 
@@ -102,7 +101,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1630967877
+export SOURCE_DATE_EPOCH=1641855440
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -119,12 +118,12 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-meson test -C builddir || :
+meson test -C builddir --print-errorlogs || :
 
 %install
 DESTDIR=%{buildroot} ninja -C builddir install
 ## Remove excluded files
-rm -f %{buildroot}/usr/bin/test
+rm -f %{buildroot}*/usr/bin/test
 
 %files
 %defattr(-,root,root,-)

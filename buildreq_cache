@@ -1,5 +1,4 @@
 20.11.3
-Sphinx
 doxygen
 pkgconfig(jansson)
 pkgconfig(libbpf)
@@ -10,4 +9,5 @@ pkgconfig(libisal)
 pkgconfig(libmlx4)
 pkgconfig(libmlx5)
 pkgconfig(zlib)
+pypi-sphinx
 zlib-dev
