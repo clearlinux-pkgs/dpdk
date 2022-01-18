@@ -501,6 +501,8 @@ librte_common_mlx5.so.21:mlx5_nl_switch_info
 librte_common_mlx5.so.21:mlx5_nl_vf_mac_addr_modify
 librte_common_mlx5.so.21:mlx5_nl_vlan_vmwa_create
 librte_common_mlx5.so.21:mlx5_nl_vlan_vmwa_delete
+librte_common_mlx5.so.21:mlx5_os_wrapped_mkey_create
+librte_common_mlx5.so.21:mlx5_os_wrapped_mkey_destroy
 librte_common_mlx5.so.21:mlx5_pci_driver_register
 librte_common_mlx5.so.21:mlx5_realloc
 librte_common_mlx5.so.21:mlx5_release_dbr
