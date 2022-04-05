@@ -495,8 +495,10 @@ librte_common_mlx5.so.21:mlx5_nl_mac_addr_add
 librte_common_mlx5.so.21:mlx5_nl_mac_addr_flush
 librte_common_mlx5.so.21:mlx5_nl_mac_addr_remove
 librte_common_mlx5.so.21:mlx5_nl_mac_addr_sync
+librte_common_mlx5.so.21:mlx5_nl_parse_link_status_update
 librte_common_mlx5.so.21:mlx5_nl_portnum
 librte_common_mlx5.so.21:mlx5_nl_promisc
+librte_common_mlx5.so.21:mlx5_nl_read_events
 librte_common_mlx5.so.21:mlx5_nl_switch_info
 librte_common_mlx5.so.21:mlx5_nl_vf_mac_addr_modify
 librte_common_mlx5.so.21:mlx5_nl_vlan_vmwa_create
@@ -1259,6 +1261,7 @@ librte_ethdev.so.21:rte_eth_dev_destroy
 librte_ethdev.so.21:rte_eth_dev_flow_ctrl_get
 librte_ethdev.so.21:rte_eth_dev_flow_ctrl_set
 librte_ethdev.so.21:rte_eth_dev_fw_version_get
+librte_ethdev.so.21:rte_eth_dev_get_by_name
 librte_ethdev.so.21:rte_eth_dev_get_dcb_info
 librte_ethdev.so.21:rte_eth_dev_get_eeprom
 librte_ethdev.so.21:rte_eth_dev_get_eeprom_length
