@@ -702,6 +702,7 @@ librte_ethdev.so.22:rte_eth_dev_destroy
 librte_ethdev.so.22:rte_eth_dev_flow_ctrl_get
 librte_ethdev.so.22:rte_eth_dev_flow_ctrl_set
 librte_ethdev.so.22:rte_eth_dev_fw_version_get
+librte_ethdev.so.22:rte_eth_dev_get_by_name
 librte_ethdev.so.22:rte_eth_dev_get_dcb_info
 librte_ethdev.so.22:rte_eth_dev_get_eeprom
 librte_ethdev.so.22:rte_eth_dev_get_eeprom_length
@@ -1555,6 +1556,7 @@ librte_rcu.so.22:rte_rcu_qsbr_synchronize
 librte_rcu.so.22:rte_rcu_qsbr_thread_register
 librte_rcu.so.22:rte_rcu_qsbr_thread_unregister
 librte_regexdev.so.22:EXPERIMENTAL
+librte_regexdev.so.22:INTERNAL
 librte_regexdev.so.22:rte_regexdev_attr_get
 librte_regexdev.so.22:rte_regexdev_attr_set
 librte_regexdev.so.22:rte_regexdev_close

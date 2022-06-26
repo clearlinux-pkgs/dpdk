@@ -1,4 +1,4 @@
-21.11
+21.11.1
 doxygen
 libarchive-dev
 pkgconfig(jansson)
@@ -10,7 +10,6 @@ pkgconfig(libelf)
 pkgconfig(libisal)
 pkgconfig(libmlx4)
 pkgconfig(libmlx5)
-pkgconfig(libmusdk)
 pkgconfig(zlib)
 pypi-sphinx
 zlib-dev
