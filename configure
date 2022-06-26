@@ -1,8 +1,8 @@
 -Dmachine="westmere"
 -Dincludedir=/usr/include/dpdk
 -Dinclude_subdir_arch=""
--Ddrivers_install_subdir=""
+#-Ddrivers_install_subdir=""
 -Db_pie="true"
--Dibverbs_link="dlopen"
+#-Dibverbs_link="dlopen"
 # musdk (Marvell net and crypto drivers) don't have clear linux packages
-"-Ddisable_drivers=net/mvpp2,net/mvneta,crypto/mvsam"
+"-Ddisable_drivers=common/mvep,net/mvpp2,net/mvneta,crypto/mvsam"
