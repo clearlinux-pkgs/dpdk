@@ -4,15 +4,16 @@
 #
 Name     : dpdk
 Version  : 21.11.1
-Release  : 64
+Release  : 65
 URL      : https://fast.dpdk.org/rel/dpdk-21.11.1.tar.xz
 Source0  : https://fast.dpdk.org/rel/dpdk-21.11.1.tar.xz
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : BSD-3-Clause GPL-2.0
+License  : BSD-2-Clause BSD-3-Clause GPL-2.0 ISC LGPL-2.1 MIT
 Requires: dpdk-bin = %{version}-%{release}
 Requires: dpdk-data = %{version}-%{release}
 Requires: dpdk-lib = %{version}-%{release}
+Requires: dpdk-license = %{version}-%{release}
 Requires: pypi(pyelftools)
 BuildRequires : buildreq-meson
 BuildRequires : doxygen
@@ -42,6 +43,7 @@ It supports many processor architectures and both FreeBSD and Linux.
 Summary: bin components for the dpdk package.
 Group: Binaries
 Requires: dpdk-data = %{version}-%{release}
+Requires: dpdk-license = %{version}-%{release}
 
 %description bin
 bin components for the dpdk package.
@@ -80,9 +82,18 @@ doc components for the dpdk package.
 Summary: lib components for the dpdk package.
 Group: Libraries
 Requires: dpdk-data = %{version}-%{release}
+Requires: dpdk-license = %{version}-%{release}
 
 %description lib
 lib components for the dpdk package.
+
+
+%package license
+Summary: license components for the dpdk package.
+Group: Default
+
+%description license
+license components for the dpdk package.
 
 
 %package staticdev
@@ -104,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656263999
+export SOURCE_DATE_EPOCH=1656339448
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -125,6 +136,13 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 meson test -C builddir --print-errorlogs || :
 
 %install
+mkdir -p %{buildroot}/usr/share/package-licenses/dpdk
+cp %{_builddir}/dpdk-stable-21.11.1/license/bsd-2-clause.txt %{buildroot}/usr/share/package-licenses/dpdk/bcc67a9a7d4e27cf65e425f5077e250ee239ece6
+cp %{_builddir}/dpdk-stable-21.11.1/license/bsd-3-clause.txt %{buildroot}/usr/share/package-licenses/dpdk/7d9185af9b499d91e113fe752af7d9d53b9e5c6a
+cp %{_builddir}/dpdk-stable-21.11.1/license/gpl-2.0.txt %{buildroot}/usr/share/package-licenses/dpdk/4cc77b90af91e615a64ae04893fdffa7939db84c
+cp %{_builddir}/dpdk-stable-21.11.1/license/isc.txt %{buildroot}/usr/share/package-licenses/dpdk/1a68b9d79f4cca4b3ed1d191dbc068bc26fc918e
+cp %{_builddir}/dpdk-stable-21.11.1/license/lgpl-2.1.txt %{buildroot}/usr/share/package-licenses/dpdk/3704f4680301a60004b20f94e0b5b8c7ff1484a9
+cp %{_builddir}/dpdk-stable-21.11.1/license/mit.txt %{buildroot}/usr/share/package-licenses/dpdk/b1c8d10e65cc798970152f8f037c23a521f8205d
 DESTDIR=%{buildroot} ninja -C builddir install
 ## Remove excluded files
 rm -f %{buildroot}*/usr/bin/test
@@ -1806,6 +1824,15 @@ rm -f %{buildroot}*/usr/bin/test
 /usr/lib64/librte_vdpa_sfc.so.22.0
 /usr/lib64/librte_vhost.so.22
 /usr/lib64/librte_vhost.so.22.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/dpdk/1a68b9d79f4cca4b3ed1d191dbc068bc26fc918e
+/usr/share/package-licenses/dpdk/3704f4680301a60004b20f94e0b5b8c7ff1484a9
+/usr/share/package-licenses/dpdk/4cc77b90af91e615a64ae04893fdffa7939db84c
+/usr/share/package-licenses/dpdk/7d9185af9b499d91e113fe752af7d9d53b9e5c6a
+/usr/share/package-licenses/dpdk/b1c8d10e65cc798970152f8f037c23a521f8205d
+/usr/share/package-licenses/dpdk/bcc67a9a7d4e27cf65e425f5077e250ee239ece6
 
 %files staticdev
 %defattr(-,root,root,-)
