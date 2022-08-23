@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 21.11.1
-Release  : 65
+Release  : 66
 URL      : https://fast.dpdk.org/rel/dpdk-21.11.1.tar.xz
 Source0  : https://fast.dpdk.org/rel/dpdk-21.11.1.tar.xz
 Summary  : No detailed summary available
