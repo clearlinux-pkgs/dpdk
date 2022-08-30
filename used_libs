@@ -1,7 +1,6 @@
 ld-linux-x86-64.so.2
 libarchive.so.13
 libatomic.so.1
-libbpf.so.0
 libbsd.so.0
 libc.so.6
 libcrypto.so.1.1
