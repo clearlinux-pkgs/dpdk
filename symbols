@@ -1796,3 +1796,4 @@ librte_vhost.so.22:rte_vhost_set_vring_base
 librte_vhost.so.22:rte_vhost_slave_config_change
 librte_vhost.so.22:rte_vhost_submit_enqueue_burst
 librte_vhost.so.22:rte_vhost_vring_call
+librte_vhost.so.22:rte_vhost_vring_call_nonblock

@@ -1,0 +1,11 @@
+--- dpdk-22.03/lib/meson.build~	2022-09-13 17:57:14.000000000 +0000
++++ dpdk-22.03/lib/meson.build	2022-09-13 17:58:09.439702770 +0000
+@@ -117,7 +117,7 @@
+     indirect_headers = [] # public headers not directly included by apps
+     driver_sdk_headers = [] # public headers included by drivers
+     includes = []
+-    cflags = default_cflags
++    cflags += default_cflags
+     objs = [] # other object files to link against, used e.g. for
+               # instruction-set optimized versions of code
+ 
