@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 21.11.3
-Release  : 68
+Release  : 69
 URL      : https://fast.dpdk.org/rel/dpdk-21.11.3.tar.xz
 Source0  : https://fast.dpdk.org/rel/dpdk-21.11.3.tar.xz
 Summary  : No detailed summary available
@@ -33,6 +33,9 @@ BuildRequires : pkgconfig(zlib)
 BuildRequires : pypi(pyelftools)
 BuildRequires : pypi-sphinx
 BuildRequires : zlib-dev
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 Patch1: 0001-Avoid-creating-symlinks-for-PMDs.patch
 
 %description
@@ -115,12 +118,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1672170960
+export SOURCE_DATE_EPOCH=1672761476
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$FFLAGS -fno-lto "
-export FFLAGS="$FFLAGS -fno-lto "
-export CXXFLAGS="$CXXFLAGS -fno-lto "
+export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dmachine="westmere" \
 -Dincludedir=/usr/include/dpdk \
 -Dinclude_subdir_arch="" \
@@ -137,12 +140,12 @@ meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/dpdk
-cp %{_builddir}/dpdk-stable-%{version}/license/bsd-2-clause.txt %{buildroot}/usr/share/package-licenses/dpdk/bcc67a9a7d4e27cf65e425f5077e250ee239ece6
-cp %{_builddir}/dpdk-stable-%{version}/license/bsd-3-clause.txt %{buildroot}/usr/share/package-licenses/dpdk/7d9185af9b499d91e113fe752af7d9d53b9e5c6a
-cp %{_builddir}/dpdk-stable-%{version}/license/gpl-2.0.txt %{buildroot}/usr/share/package-licenses/dpdk/4cc77b90af91e615a64ae04893fdffa7939db84c
-cp %{_builddir}/dpdk-stable-%{version}/license/isc.txt %{buildroot}/usr/share/package-licenses/dpdk/1a68b9d79f4cca4b3ed1d191dbc068bc26fc918e
-cp %{_builddir}/dpdk-stable-%{version}/license/lgpl-2.1.txt %{buildroot}/usr/share/package-licenses/dpdk/3704f4680301a60004b20f94e0b5b8c7ff1484a9
-cp %{_builddir}/dpdk-stable-%{version}/license/mit.txt %{buildroot}/usr/share/package-licenses/dpdk/b1c8d10e65cc798970152f8f037c23a521f8205d
+cp %{_builddir}/dpdk-stable-%{version}/license/bsd-2-clause.txt %{buildroot}/usr/share/package-licenses/dpdk/bcc67a9a7d4e27cf65e425f5077e250ee239ece6 || :
+cp %{_builddir}/dpdk-stable-%{version}/license/bsd-3-clause.txt %{buildroot}/usr/share/package-licenses/dpdk/7d9185af9b499d91e113fe752af7d9d53b9e5c6a || :
+cp %{_builddir}/dpdk-stable-%{version}/license/gpl-2.0.txt %{buildroot}/usr/share/package-licenses/dpdk/4cc77b90af91e615a64ae04893fdffa7939db84c || :
+cp %{_builddir}/dpdk-stable-%{version}/license/isc.txt %{buildroot}/usr/share/package-licenses/dpdk/1a68b9d79f4cca4b3ed1d191dbc068bc26fc918e || :
+cp %{_builddir}/dpdk-stable-%{version}/license/lgpl-2.1.txt %{buildroot}/usr/share/package-licenses/dpdk/3704f4680301a60004b20f94e0b5b8c7ff1484a9 || :
+cp %{_builddir}/dpdk-stable-%{version}/license/mit.txt %{buildroot}/usr/share/package-licenses/dpdk/b1c8d10e65cc798970152f8f037c23a521f8205d || :
 DESTDIR=%{buildroot} ninja -C builddir install
 ## Remove excluded files
 rm -f %{buildroot}*/usr/bin/test
