@@ -4,7 +4,7 @@
 #
 Name     : dpdk
 Version  : 21.11.3
-Release  : 69
+Release  : 70
 URL      : https://fast.dpdk.org/rel/dpdk-21.11.3.tar.xz
 Source0  : https://fast.dpdk.org/rel/dpdk-21.11.3.tar.xz
 Summary  : No detailed summary available
@@ -33,9 +33,6 @@ BuildRequires : pkgconfig(zlib)
 BuildRequires : pypi(pyelftools)
 BuildRequires : pypi-sphinx
 BuildRequires : zlib-dev
-# Suppress stripping binaries
-%define __strip /bin/true
-%define debug_package %{nil}
 Patch1: 0001-Avoid-creating-symlinks-for-PMDs.patch
 
 %description
@@ -118,12 +115,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1672761476
+export SOURCE_DATE_EPOCH=1672764295
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dmachine="westmere" \
 -Dincludedir=/usr/include/dpdk \
 -Dinclude_subdir_arch="" \
